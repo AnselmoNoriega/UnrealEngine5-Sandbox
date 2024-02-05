@@ -4,19 +4,16 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
-#include "FirstClass.generated.h"
+#include "MainCharacter.generated.h"
 
 UCLASS()
-class TESTPROJECT_API AFirstClass : public ACharacter
+class TESTPROJECT_API AMainCharacter : public ACharacter
 {
 	GENERATED_BODY()
 
 public:
 	// Sets default values for this character's properties
-	AFirstClass();
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Testing") int Value;
-	UPROPERTY(BlueprintReadOnly, VisibleAnywhere, Category = "Testing") int Value;
+	AMainCharacter();
 
 protected:
 	// Called when the game starts or when spawned
