@@ -1,5 +1,12 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "MainController.h"
+#include "MainCharacter.h"
 
+void AMainController::OnPossess(APawn* aPawn)
+{
+	Super::OnPossess(aPawn);
+}
+
+void AMainController::OnUnPossess()
+{
+	Super::OnUnPossess();
+}
