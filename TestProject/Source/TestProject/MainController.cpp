@@ -1,6 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "MainController.h"
 #include "MainCharacter.h"
 #include "EnhancedInputComponent.h"
@@ -11,27 +8,18 @@ void AMainController::OnPossess(APawn* aPawn)
 	Super::OnPossess(aPawn);
 
 	playerCharacter = Cast<AMainCharacter>(aPawn);
-	checkf(playerCharacter,
-		TEXT("Wrong type of pawn."));
+	checkf(playerCharacter, TEXT("Wrong type of pawn."));
 
 	mInputComponent = Cast<UEnhancedInputComponent>(InputComponent);
-	checkf(mInputComponent,
-		TEXT("Unable to get reference to the EnhancedInputComponent."));
+	checkf(mInputComponent, TEXT("Unable to get reference to the EnhancedInputComponent."));
 
-	// Get the local player subsystem
-	// Just a local variable, we dont need to refer to it again after this
-	UEnhancedInputLocalPlayerSubsystem* InputSubsystem =
-		ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
-	checkf(InputSubsystem,
-		TEXT("Unable to get reference to the EnhancedInputLocalPlayerSubsystem."));
+	UEnhancedInputLocalPlayerSubsystem* InputSubsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer());
+	checkf(InputSubsystem, TEXT("Unable to get reference to the EnhancedInputLocalPlayerSubsystem."));
 
-	// Wipe existing mappings, and add our mapping.
 	checkf(InputMappingContent, TEXT("InputMappingContent was not specified."));
 	InputSubsystem->ClearAllMappings();
 	InputSubsystem->AddMappingContext(InputMappingContent, 0);
 
-	// Bind the input actions.
-	// Only attempt to bind if valid values were provided.
 	if (ActionMove)
 	{
 		mInputComponent->BindAction
@@ -39,7 +27,7 @@ void AMainController::OnPossess(APawn* aPawn)
 			ActionMove, 
 			ETriggerEvent::Triggered, 
 			this,
-			&HandleMove
+			&AMainController::HandleMove
 		);
 	}
 
@@ -50,7 +38,7 @@ void AMainController::OnPossess(APawn* aPawn)
 			ActionLook, 
 			ETriggerEvent::Triggered, 
 			this,
-			&HandleLook
+			&AMainController::HandleLook
 		);
 	}
 
@@ -61,7 +49,7 @@ void AMainController::OnPossess(APawn* aPawn)
 			ActionJump, 
 			ETriggerEvent::Triggered, 
 			this,
-			&HandleJump
+			&AMainController::HandleJump
 		);
 	}
 }

@@ -15,7 +15,7 @@ class UInputMappingContext;
 /**
  * 
  */
-UCLASS()
+UCLASS(Abstract)
 class AMainController : public APlayerController
 {
 	GENERATED_BODY()
