@@ -4,6 +4,12 @@
 #include "FirstGameMode.h"
 #include "Kismet/KismetSystemLibrary.h" // For logging in Unreal
 
+AFirstGameMode::AFirstGameMode()
+{
+    static ConstructorHelpers::FClassFinder<APawn> DefaultPawnClassFinder(TEXT("/Game/FirstPerson/Blueprints/BP_FirstPersonCharacter"));
+    DefaultPawnClass = DefaultPawnClassFinder.Class;
+}
+
 void AFirstGameMode::BeginPlay()
 {
     // Call parent's Begin play

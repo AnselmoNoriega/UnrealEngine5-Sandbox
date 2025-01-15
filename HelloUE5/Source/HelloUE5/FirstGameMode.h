@@ -7,13 +7,16 @@
 #include "FirstGameMode.generated.h"
 
 /**
- * 
+ *
  */
 UCLASS()
 class HELLOUE5_API AFirstGameMode : public AGameModeBase
 {
-	GENERATED_BODY()
+    GENERATED_BODY()
 
 public:
+
+    AFirstGameMode();
+
     void BeginPlay() override;
 };
