@@ -9,7 +9,7 @@
 /**
  *
  */
-UCLASS()
+UCLASS(Blueprintable, BlueprintType)
 class HELLOUE5_API AFirstGameMode : public AGameModeBase
 {
     GENERATED_BODY()
@@ -23,4 +23,7 @@ public:
 
     void BeginPlay() override;
     void Tick(float dt) override;
+
+private:
+    void PrintMessage();
 };
