@@ -18,5 +18,9 @@ public:
 
     AFirstGameMode();
 
+    UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = "GameModeChimichanga")
+    TSubclassOf<APawn> PawnForClass;
+
     void BeginPlay() override;
+    void Tick(float dt) override;
 };
