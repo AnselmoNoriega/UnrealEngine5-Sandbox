@@ -16,11 +16,5 @@ class HELLOUE5_API UFunctionUtils : public UBlueprintFunctionLibrary
 
 public:
 	UFUNCTION(BlueprintCallable, meta = (ToolTip = "VALUE- Exatly Anselmo", CompactNodeTitle = "ChangePos"))
-	static void MovePosition(AActor* Actor, const FVector timePosition);
-
-	UFUNCTION(BlueprintCallable, meta = (ToolTip = "VALUE- Exatly Anselmo", CompactNodeTitle = "StartPos"))
-	static void StartPosition(AActor* Actor);
-
-private:
-	static FVector startPos;
+	static void MovePosition(FVector StartPos, AActor* Actor, const FVector timePosition);
 };
