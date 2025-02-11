@@ -12,7 +12,7 @@ ANPC::ANPC()
 
 UBehaviorTree* ANPC::GetBehaviorTree() const
 {
-	return _behaviorTree;
+	return mBehaviorTree;
 }
 
 // Called when the game starts or when spawned

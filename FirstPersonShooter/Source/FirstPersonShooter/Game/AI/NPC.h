@@ -22,8 +22,8 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI")
-	UBehaviorTree* _behaviorTree;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI", meta = (AllowPrivateAccess = "true"))
+	UBehaviorTree* mBehaviorTree;
 
 public:
 	// Called every frame

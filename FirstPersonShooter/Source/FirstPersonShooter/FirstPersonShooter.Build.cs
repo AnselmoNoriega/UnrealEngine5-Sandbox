@@ -1,6 +1,7 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 using UnrealBuildTool;
+using UnrealBuildTool.Rules;
 
 public class FirstPersonShooter : ModuleRules
 {
@@ -18,7 +19,7 @@ public class FirstPersonShooter : ModuleRules
             "HeadMountedDisplay",
             "AIModule",
             "GameplayTasks",
-            "NavegationSystem"
+            "NavigationSystem"
         });
 	}
 }
