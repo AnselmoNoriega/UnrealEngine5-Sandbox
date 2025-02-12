@@ -30,10 +30,10 @@ EBTNodeResult::Type UTask_FindRandomLocation::ExecuteTask(UBehaviorTreeComponent
                         GetSelectedBlackboardKey(),
                         navlocation.Location
                     );
-                }
 
-                FinishLatentTask(owner, EBTNodeResult::Succeeded);
-                return EBTNodeResult::Succeeded;
+                    FinishLatentTask(owner, EBTNodeResult::Succeeded);
+                    return EBTNodeResult::Succeeded;
+                }
             }
         }
     }
