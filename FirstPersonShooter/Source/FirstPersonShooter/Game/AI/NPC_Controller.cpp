@@ -37,8 +37,8 @@ void ANPC_Controller::SetupPerceptionSystem()
     if (mSightConfig)
     {
         SetPerceptionComponent(*CreateDefaultSubobject<UAIPerceptionComponent>(TEXT("Perception Component")));
-        mSightConfig->SightRadius = 500.0f;
-        mSightConfig->LoseSightRadius = mSightConfig->SightRadius + 25.0f;
+        mSightConfig->SightRadius = 800.0f;
+        mSightConfig->LoseSightRadius = mSightConfig->SightRadius + 225.0f;
         mSightConfig->PeripheralVisionAngleDegrees = 90.0f;
         mSightConfig->SetMaxAge(5.0f);
         mSightConfig->AutoSuccessRangeFromLastSeenLocation = 520.0f;
