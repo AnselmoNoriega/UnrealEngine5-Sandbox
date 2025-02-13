@@ -50,3 +50,13 @@ UAnimMontage* ANPC::GetMontage() const
 	return mMontage;
 }
 
+void ANPC::GetDamage(float DamageAmount)
+{
+	mHealth -= DamageAmount;
+
+	if (mHealth <= 0.0f)
+	{
+
+	}
+}
+

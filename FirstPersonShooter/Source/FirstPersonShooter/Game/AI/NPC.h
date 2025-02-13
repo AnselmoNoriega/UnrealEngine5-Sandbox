@@ -41,7 +41,13 @@ public:
 
 	UAnimMontage* GetMontage() const;
 
+	UFUNCTION(BlueprintCallable, Category = "Combat")
+	void GetDamage(float DamageAmount);
+
 private:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animation, meta = (AllowPrivateAccess = "true"))
 	UAnimMontage* mMontage;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Stats", meta = (AllowPrivateAccess = "true"))
+	float mHealth = 100.0f;
 };

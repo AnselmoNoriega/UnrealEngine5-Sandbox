@@ -19,7 +19,10 @@ public class FirstPersonShooter : ModuleRules
             "HeadMountedDisplay",
             "AIModule",
             "GameplayTasks",
-            "NavigationSystem"
+            "NavigationSystem",
+            "UMG",
+            "Slate",
+            "SlateCore"
         });
 	}
 }
