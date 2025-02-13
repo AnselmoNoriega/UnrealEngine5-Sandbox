@@ -89,7 +89,6 @@ void AFirstPersonShooterCharacter::SetupStimulusSource()
 	}
 }
 
-
 void AFirstPersonShooterCharacter::Move(const FInputActionValue& Value)
 {
 	// input is a Vector2D
