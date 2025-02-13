@@ -84,6 +84,11 @@ void AFirstPersonShooterCharacter::GetDamage(float damageAmount)
 	mHealth -= damageAmount;
 }
 
+void AFirstPersonShooterCharacter::AddKillCount()
+{
+	++mKillCount;
+}
+
 void AFirstPersonShooterCharacter::SetupStimulusSource()
 {
 	mStimulusSource = CreateDefaultSubobject<UAIPerceptionStimuliSourceComponent>(TEXT("Stimulus"));

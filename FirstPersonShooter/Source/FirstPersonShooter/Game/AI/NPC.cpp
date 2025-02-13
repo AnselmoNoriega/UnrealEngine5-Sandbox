@@ -2,6 +2,11 @@
 
 #include "NPC.h"
 
+#include "GameFramework/Character.h"
+#include "Kismet/GameplayStatics.h"
+
+#include "FirstPersonShooter/FirstPersonShooterCharacter.h"
+
 // Sets default values
 ANPC::ANPC()
 {
@@ -59,6 +64,16 @@ void ANPC::IsDead()
 {
 	if (mHealth <= 0.0f)
 	{
+		ACharacter* PlayerCharacter = UGameplayStatics::GetPlayerCharacter(this, 0);
+		if (PlayerCharacter)
+		{
+			AFirstPersonShooterCharacter* character = Cast<AFirstPersonShooterCharacter>(PlayerCharacter);
+			if (character)
+			{
+				character->AddKillCount();
+			}
+		}
+
 		Destroy();
 	}
 }

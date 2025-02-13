@@ -70,6 +70,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Combat")
 	void GetDamage(float damageAmount);
 
+	void AddKillCount();
+
 private:
 	class UAIPerceptionStimuliSourceComponent* mStimulusSource;
 
@@ -78,5 +80,8 @@ private:
 private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Stats", meta = (AllowPrivateAccess = "true"))
 	float mHealth = 100.0f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Stats", meta = (AllowPrivateAccess = "true"))
+	int mKillCount = 0;
 };
 
