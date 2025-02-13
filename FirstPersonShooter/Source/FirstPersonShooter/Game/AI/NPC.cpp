@@ -53,10 +53,13 @@ UAnimMontage* ANPC::GetMontage() const
 void ANPC::GetDamage(float DamageAmount)
 {
 	mHealth -= DamageAmount;
+}
 
+void ANPC::IsDead()
+{
 	if (mHealth <= 0.0f)
 	{
-
+		Destroy();
 	}
 }
 

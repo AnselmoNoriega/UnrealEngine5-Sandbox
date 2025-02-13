@@ -44,6 +44,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Combat")
 	void GetDamage(float DamageAmount);
 
+	UFUNCTION(BlueprintCallable, Category = "Combat")
+	void IsDead();
+
 private:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animation, meta = (AllowPrivateAccess = "true"))
 	UAnimMontage* mMontage;
