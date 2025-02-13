@@ -1,6 +1,10 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "FirstPersonShooterCharacter.h"
+
+#include "Perception/AIPerceptionStimuliSourceComponent.h"
+#include "Perception/AISenseConfig_Sight.h"
+
 #include "FirstPersonShooterProjectile.h"
 #include "Animation/AnimInstance.h"
 #include "Camera/CameraComponent.h"
@@ -34,7 +38,8 @@ AFirstPersonShooterCharacter::AFirstPersonShooterCharacter()
 	Mesh1P->bCastDynamicShadow = false;
 	Mesh1P->CastShadow = false;
 	Mesh1P->SetRelativeLocation(FVector(-30.f, 0.f, -150.f));
-
+	
+	SetupStimulusSource();
 }
 
 //////////////////////////////////////////////////////////////////////////// Input
@@ -71,6 +76,16 @@ void AFirstPersonShooterCharacter::SetupPlayerInputComponent(UInputComponent* Pl
 	else
 	{
 		UE_LOG(LogTemplateCharacter, Error, TEXT("'%s' Failed to find an Enhanced Input Component! This template is built to use the Enhanced Input system. If you intend to use the legacy system, then you will need to update this C++ file."), *GetNameSafe(this));
+	}
+}
+
+void AFirstPersonShooterCharacter::SetupStimulusSource()
+{
+	mStimulusSource = CreateDefaultSubobject<UAIPerceptionStimuliSourceComponent>(TEXT("Stimulus"));
+	if (mStimulusSource)
+	{
+		mStimulusSource->RegisterForSense(TSubclassOf<UAISense_Sight>());
+		mStimulusSource->RegisterWithPerceptionSystem();
 	}
 }
 

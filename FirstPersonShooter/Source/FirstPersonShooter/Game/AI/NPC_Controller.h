@@ -4,6 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "AIController.h"
+
+#include "Perception/AIPerceptionTypes.h"
+
 #include "NPC_Controller.generated.h"
 
 /**
@@ -12,10 +15,20 @@
 UCLASS()
 class FIRSTPERSONSHOOTER_API ANPC_Controller : public AAIController
 {
-	GENERATED_BODY()
+    GENERATED_BODY()
 
 public:
-	explicit ANPC_Controller(FObjectInitializer const& objectInitializer);
+    explicit ANPC_Controller(const FObjectInitializer& objectInitializer);
 
-	void OnPossess(APawn* pawn) override;
+protected:
+    void OnPossess(APawn* pawn) override;
+
+private:
+    void SetupPerceptionSystem();
+
+    UFUNCTION()
+    void OnTargetDetected(AActor* actor, const FAIStimulus stimulus);
+
+private:
+    class UAISenseConfig_Sight* mSightConfig;
 };
