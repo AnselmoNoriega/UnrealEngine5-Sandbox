@@ -59,7 +59,6 @@ void ANPC_Controller::OnTargetDetected(AActor* actor, const FAIStimulus stimulus
 {
     if (const auto* character = Cast<AFirstPersonShooterCharacter>(actor))
     {
-        GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Red, TEXT("Hello, UE5!"));
         GetBlackboardComponent()->SetValueAsBool("CanSeePlayer", stimulus.WasSuccessfullySensed());
     }
 }
