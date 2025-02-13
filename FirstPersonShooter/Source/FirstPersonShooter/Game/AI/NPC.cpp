@@ -22,6 +22,16 @@ void ANPC::BeginPlay()
 
 }
 
+int ANPC::MeleeAttack_Implementation()
+{
+	if (mMontage)
+	{
+		PlayAnimMontage(mMontage);
+	}
+
+	return 0;
+}
+
 // Called every frame
 void ANPC::Tick(float DeltaTime)
 {
@@ -33,5 +43,10 @@ void ANPC::Tick(float DeltaTime)
 void ANPC::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
+}
+
+UAnimMontage* ANPC::GetMontage() const
+{
+	return mMontage;
 }
 

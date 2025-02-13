@@ -3,12 +3,17 @@
 #pragma once
 
 #include "CoreMinimal.h"
+
+#include "Animation/AnimMontage.h"
+#include "FirstPersonShooter/Game/AI/AIHelper.h"
+
 #include "BehaviorTree/BehaviorTree.h"
+
 #include "GameFramework/Character.h"
 #include "NPC.generated.h"
 
 UCLASS()
-class FIRSTPERSONSHOOTER_API ANPC : public ACharacter
+class FIRSTPERSONSHOOTER_API ANPC : public ACharacter, public IAIHelper
 {
 	GENERATED_BODY()
 
@@ -25,10 +30,18 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI", meta = (AllowPrivateAccess = "true"))
 	UBehaviorTree* mBehaviorTree;
 
+	int MeleeAttack_Implementation() override;
+
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	UAnimMontage* GetMontage() const;
+
+private:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Animation, meta = (AllowPrivateAccess = "true"))
+	UAnimMontage* mMontage;
 };
