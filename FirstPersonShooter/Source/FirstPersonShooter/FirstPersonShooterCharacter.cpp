@@ -79,6 +79,11 @@ void AFirstPersonShooterCharacter::SetupPlayerInputComponent(UInputComponent* Pl
 	}
 }
 
+void AFirstPersonShooterCharacter::GetDamage(float damageAmount)
+{
+	mHealth -= damageAmount;
+}
+
 void AFirstPersonShooterCharacter::SetupStimulusSource()
 {
 	mStimulusSource = CreateDefaultSubobject<UAIPerceptionStimuliSourceComponent>(TEXT("Stimulus"));

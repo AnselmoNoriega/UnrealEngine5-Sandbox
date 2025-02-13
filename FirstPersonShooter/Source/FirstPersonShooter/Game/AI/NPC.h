@@ -42,7 +42,7 @@ public:
 	UAnimMontage* GetMontage() const;
 
 	UFUNCTION(BlueprintCallable, Category = "Combat")
-	void GetDamage(float DamageAmount);
+	void GetDamage(float damageAmount);
 
 	UFUNCTION(BlueprintCallable, Category = "Combat")
 	void IsDead();

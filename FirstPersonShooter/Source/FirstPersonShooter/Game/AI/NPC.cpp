@@ -50,9 +50,9 @@ UAnimMontage* ANPC::GetMontage() const
 	return mMontage;
 }
 
-void ANPC::GetDamage(float DamageAmount)
+void ANPC::GetDamage(float damageAmount)
 {
-	mHealth -= DamageAmount;
+	mHealth -= damageAmount;
 }
 
 void ANPC::IsDead()

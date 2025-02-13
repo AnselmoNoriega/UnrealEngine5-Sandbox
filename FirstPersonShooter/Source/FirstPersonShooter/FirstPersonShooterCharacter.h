@@ -67,9 +67,16 @@ public:
 	/** Returns FirstPersonCameraComponent subobject **/
 	UCameraComponent* GetFirstPersonCameraComponent() const { return FirstPersonCameraComponent; }
 
+	UFUNCTION(BlueprintCallable, Category = "Combat")
+	void GetDamage(float damageAmount);
+
 private:
 	class UAIPerceptionStimuliSourceComponent* mStimulusSource;
 
 	void SetupStimulusSource();
+
+private:
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Stats", meta = (AllowPrivateAccess = "true"))
+	float mHealth = 100.0f;
 };
 
