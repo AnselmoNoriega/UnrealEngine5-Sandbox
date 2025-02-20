@@ -46,12 +46,13 @@ void UFirstPersonShooterWeaponComponent::Fire()
 			// Spawn the projectile at the muzzle
 			World->SpawnActor<AFirstPersonShooterProjectile>(ProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
 		}
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("This is a debug message!"));
 	}
 	
 	// Try and play the sound if specified
 	if (FireSound != nullptr)
 	{
-		UGameplayStatics::PlaySoundAtLocation(this, FireSound, Character->GetActorLocation());
+		//UGameplayStatics::PlaySoundAtLocation(this, FireSound, Character->GetActorLocation());
 	}
 	
 	// Try and play a firing animation if specified
