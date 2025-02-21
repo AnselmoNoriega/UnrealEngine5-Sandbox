@@ -25,4 +25,7 @@ public:
 
 private:
 	bool IsMontageFinished(const ANPC* npc);
+
+	UFUNCTION()
+	void OnMontageEnded(UAnimMontage* Montage, bool bInterrupted);
 };

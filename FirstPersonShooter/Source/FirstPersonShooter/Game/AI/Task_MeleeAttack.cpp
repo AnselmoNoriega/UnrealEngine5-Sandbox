@@ -35,11 +35,12 @@ EBTNodeResult::Type UTask_MeleeAttack::ExecuteTask(UBehaviorTreeComponent& owner
         if (IsMontageFinished(npc))
         {
             icombat->Execute_MeleeAttack(npc);
+            FinishLatentTask(owner, EBTNodeResult::Succeeded);
+            return EBTNodeResult::Succeeded;
         }
     }
 
-    FinishLatentTask(owner, EBTNodeResult::Succeeded);
-    return EBTNodeResult::Type();
+    return EBTNodeResult::InProgress;
 }
 
 bool UTask_MeleeAttack::IsMontageFinished(const ANPC* npc)
