@@ -47,3 +47,7 @@ bool UTask_MeleeAttack::IsMontageFinished(const ANPC* npc)
 {
     return npc->GetMesh()->GetAnimInstance()->Montage_GetIsStopped(npc->GetMontage());
 }
+
+void UTask_MeleeAttack::OnMontageEnded(UAnimMontage* Montage, bool bInterrupted)
+{
+}
