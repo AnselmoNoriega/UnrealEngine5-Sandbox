@@ -18,13 +18,13 @@ public:
     void SetSelected(bool bIsSelected = true);
 
 protected:
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Visual")
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Visual")
     UTexture2D* NormalImage;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Visual")
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Visual")
     UTexture2D* HoveredImage;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Visual")
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Visual")
     UTexture2D* SelectedImage;
 
 private:

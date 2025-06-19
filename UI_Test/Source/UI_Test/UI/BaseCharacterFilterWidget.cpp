@@ -5,6 +5,12 @@
 
 void UBaseCharacterFilterWidget::SetSelected(bool bIsSelected)
 {
+    //Super::NativeOnMouseEnter(InGeometry, InMouseEvent);
+    //
+    //if (Background)
+    //{
+    //    Background->SetBrushFromTexture(HoveredTexture);
+    //}
 }
 
 void UBaseCharacterFilterWidget::NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
