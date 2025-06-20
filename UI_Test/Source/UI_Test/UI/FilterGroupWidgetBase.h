@@ -4,13 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "BaseCharacterSelectionWidget.generated.h"
+#include "FilterGroupWidgetBase.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class UI_TEST_API UBaseCharacterSelectionWidget : public UUserWidget
+class UI_TEST_API UFilterGroupWidgetBase : public UUserWidget
 {
 	GENERATED_BODY()
 	
