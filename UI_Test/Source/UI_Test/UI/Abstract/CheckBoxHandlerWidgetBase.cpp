@@ -7,6 +7,8 @@
 
 void UCheckBoxHandlerWidgetBase::NativeConstruct()
 {
+    Super::NativeConstruct();
+
     FScriptDelegate sd;
     sd.BindUFunction(this, "TriggerClickEvent");
     BackgroundCheckBox->OnCheckStateChanged.AddDynamic(this, &UCheckBoxHandlerWidgetBase::TriggerClickEvent);
@@ -19,8 +21,16 @@ void UCheckBoxHandlerWidgetBase::SetButtonSelected(bool selected)
 
 void UCheckBoxHandlerWidgetBase::TriggerClickEvent(bool isChecked)
 {
+    for (auto& stateChangeEvent : mStateChangeEvents)
+    {
+        stateChangeEvent(isChecked);
+    }
+
     if (isChecked)
     {
-        mClickEvent();
+        for (auto& clickEvent : mClickEvents)
+        {
+            clickEvent();
+        }
     }
 }

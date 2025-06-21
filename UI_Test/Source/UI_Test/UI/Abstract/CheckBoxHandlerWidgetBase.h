@@ -15,10 +15,15 @@ class UI_TEST_API UCheckBoxHandlerWidgetBase : public UUserWidget
 	GENERATED_BODY()
 
 public:
-    void NativeConstruct();
+    void NativeConstruct() override;
 
     void SetButtonSelected(bool selected = true);
-    void SetClickEvent(const std::function<void()>& clickEvent) { mClickEvent = clickEvent; };
+
+    void AddClickEvent(const std::function<void()>& clickEvent) { mClickEvents.Add(clickEvent); };
+    void RemoveClickEvent(int32 index) { mClickEvents.RemoveAt(index); };
+
+    void AddStateChangeEvent(const std::function<void(bool)>& clickEvent) { mStateChangeEvents.Add(clickEvent); };
+    void RemoveStateChangeEvent(int32 index) { mStateChangeEvents.RemoveAt(index); };
 
 private:
     UFUNCTION()
@@ -28,5 +33,6 @@ protected:
     UPROPERTY(meta = (BindWidget))
     class UCheckBox* BackgroundCheckBox;
 
-    std::function<void()> mClickEvent = []() {};
+    TArray<std::function<void()>> mClickEvents;
+    TArray<std::function<void(bool)>> mStateChangeEvents;
 };

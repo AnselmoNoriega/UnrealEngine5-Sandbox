@@ -93,7 +93,7 @@ void UFilterGroupWidgetBase::SetFunctionEventToFilter(const std::function<void()
     UWidget* widget = mFiltersBox->GetChildAt(index);
     if (UFilterWidgetBase* filter = Cast<UFilterWidgetBase>(widget))
     {
-        filter->SetClickEvent(clickEvent);
+        filter->AddClickEvent(clickEvent);
     }
     else
     {

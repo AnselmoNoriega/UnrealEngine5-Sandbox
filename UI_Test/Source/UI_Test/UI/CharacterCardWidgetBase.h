@@ -39,6 +39,8 @@ class UI_TEST_API UCharacterCardWidgetBase : public UCheckBoxHandlerWidgetBase
 	GENERATED_BODY()
 
 public:
+    void NativeConstruct() override;
+
     void SetData(const FText& characterName, uint32 characterCount, ECharacterType type);
 
 protected:
@@ -49,7 +51,19 @@ protected:
     UTextBlock* CountTextBlock;
 
     UPROPERTY(meta = (BindWidget))
+    UImage* CharacterIcon;
+
+    UPROPERTY(meta = (BindWidget))
+    UImage* Foreground;
+
+    UPROPERTY(meta = (BindWidget))
     UImage* CharacterTypeIcon;
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Visual")
+    UTexture2D* ForegroundDefault;
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Visual")
+    UTexture2D* ForegroundSelected;
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Visual")
     TMap<ECharacterType, UTexture2D*> TypeIcons;

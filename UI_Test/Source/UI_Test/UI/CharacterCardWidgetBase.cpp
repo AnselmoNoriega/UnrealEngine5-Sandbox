@@ -9,6 +9,17 @@
 
 int32 UCharacterCardWidgetBase::sMaxCharacterCount{};
 
+void UCharacterCardWidgetBase::NativeConstruct()
+{
+    Super::NativeConstruct();
+
+    mStateChangeEvents.Add([this](bool isChecked) 
+        {
+            UTexture2D* newForeground = isChecked ? ForegroundSelected : ForegroundDefault;
+            Foreground->Brush.SetResourceObject(newForeground);
+        });
+}
+
 void UCharacterCardWidgetBase::SetData(const FText& characterName, uint32 characterCount, ECharacterType type)
 {
     CharacterName->SetText(characterName);
