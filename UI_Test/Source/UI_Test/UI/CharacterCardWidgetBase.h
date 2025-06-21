@@ -3,13 +3,14 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Blueprint/UserWidget.h"
+#include "UI_Test/UI/Abstract/CheckBoxHandlerWidgetBase.h"
 #include "CharacterCardWidgetBase.generated.h"
 
 /**
  * 
  */
 class UImage;
+class UTextBlock;
 
 UENUM(BlueprintType)
 enum class ECharacterType : uint8
@@ -33,28 +34,31 @@ struct FCharacterTypeIcons
 };
 
 UCLASS()
-class UI_TEST_API UCharacterCardWidgetBase : public UUserWidget
+class UI_TEST_API UCharacterCardWidgetBase : public UCheckBoxHandlerWidgetBase
 {
 	GENERATED_BODY()
 
 public:
-    void SetButtonSelected(bool selected = true);
+    void SetData(const FText& characterName, uint32 characterCount, ECharacterType type);
 
 protected:
     UPROPERTY(meta = (BindWidget))
-    class UCheckBox* BackgroundCheckBox;
+    UTextBlock* CharacterName;
 
     UPROPERTY(meta = (BindWidget))
-    class UTextBlock* CharacterName;
+    UTextBlock* CountTextBlock;
 
     UPROPERTY(meta = (BindWidget))
-    class UTextBlock* CountTextBlock;
+    UImage* CharacterTypeIcon;
 
-    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Visual")
-    TArray<FCharacterTypeIcons> Icons;
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Visual")
+    TMap<ECharacterType, UTexture2D*> TypeIcons;
+
+    UPROPERTY(EditDefaultsOnly, Category = "Settings")
+    int32 MaxCharacterCount = 12;
 
 private:
-    bool mIsSelected = false;
-
     ECharacterType mCharacterType;
+
+    static int32 sMaxCharacterCount;
 };

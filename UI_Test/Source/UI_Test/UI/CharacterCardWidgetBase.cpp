@@ -7,6 +7,15 @@
 #include "Components/CheckBox.h"
 #include "Components/TextBlock.h"
 
-void UCharacterCardWidgetBase::SetButtonSelected(bool selected)
+int32 UCharacterCardWidgetBase::sMaxCharacterCount{};
+
+void UCharacterCardWidgetBase::SetData(const FText& characterName, uint32 characterCount, ECharacterType type)
 {
+    CharacterName->SetText(characterName);
+
+    FString characterCountText = FString::Printf(TEXT("%d/ %d"), characterCount, sMaxCharacterCount);
+    CountTextBlock->SetText(FText::FromString(characterCountText));
+
+    mCharacterType = type;
+    CharacterTypeIcon->Brush.SetResourceObject(TypeIcons[type]);
 }
