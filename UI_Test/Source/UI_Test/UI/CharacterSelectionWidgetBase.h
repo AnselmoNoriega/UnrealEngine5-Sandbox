@@ -13,5 +13,8 @@ UCLASS()
 class UI_TEST_API UCharacterSelectionWidgetBase : public UUserWidget
 {
 	GENERATED_BODY()
-	
+
+	// TODO list
+	// [1] Make struct for list to make cards
+	// [2] Make the cards or screen change based (make class for card grabber)
 };

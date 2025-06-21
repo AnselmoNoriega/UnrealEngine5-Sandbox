@@ -5,27 +5,15 @@
 
 #include "FilterWidgetBase.h"
 
-#include "Components/GridPanel.h"
 #include "Components/GridSlot.h"
 #include "Components/VerticalBox.h"
 #include "Components/CheckBox.h"
 #include "Blueprint/WidgetTree.h"
 
 #if WITH_EDITOR
-void UFilterGroupWidgetBase::NativeConstruct()
-{
-    Super::NativeConstruct();
-
-}
-
 void UFilterGroupWidgetBase::PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent)
 {
     Super::PostEditChangeProperty(PropertyChangedEvent);
-
-    if (!mGridPanel || !mFiltersBox || !mGlobalFilterCheckBox)
-    {
-        GetPanels();
-    }
 
     static const FName filtersPropertyName = GET_MEMBER_NAME_CHECKED(UFilterGroupWidgetBase, Filters);
 
@@ -45,13 +33,6 @@ void UFilterGroupWidgetBase::PostEditChangeProperty(FPropertyChangedEvent& Prope
 }
 #endif
 
-void UFilterGroupWidgetBase::SynchronizeProperties()
-{
-    Super::SynchronizeProperties();
-
-    ResetFilterList();
-}
-
 void UFilterGroupWidgetBase::ResetFilterList()
 {
     if (!mFiltersBox)
@@ -59,6 +40,7 @@ void UFilterGroupWidgetBase::ResetFilterList()
         GetPanels();
         if (!mFiltersBox)
         {
+            UE_LOG(LogTemp, Warning, TEXT("FiltersBox not found in FilterGroup!"));
             return;
         }
     }
@@ -79,7 +61,42 @@ void UFilterGroupWidgetBase::ResetFilterList()
 
 void UFilterGroupWidgetBase::GetPanels()
 {
-    mGridPanel = Cast<UGridPanel>(GetWidgetFromName(TEXT("GridPanel")));
     mFiltersBox = Cast<UVerticalBox>(GetWidgetFromName(TEXT("FiltersBox")));
     mGlobalFilterCheckBox = Cast<UCheckBox>(GetWidgetFromName(TEXT("GlobalFilter")));
+}
+
+void UFilterGroupWidgetBase::SynchronizeProperties()
+{
+    Super::SynchronizeProperties();
+
+    ResetFilterList();
+}
+
+void UFilterGroupWidgetBase::SetFunctionEventToFilter(const std::function<void()>& clickEvent, int32 index)
+{
+    if (!mFiltersBox)
+    {
+        GetPanels();
+        if (!mFiltersBox)
+        {
+            UE_LOG(LogTemp, Warning, TEXT("FiltersBox not found in FilterGroup!"));
+            return;
+        }
+    }
+
+    if (mFiltersBox->GetChildrenCount() <= index)
+    {
+        UE_LOG(LogTemp, Warning, TEXT("Requested filter index %d is out of range. Total filters: %d"), index, mFiltersBox->GetChildrenCount());
+        return;
+    }
+
+    UWidget* widget = mFiltersBox->GetChildAt(index);
+    if (UFilterWidgetBase* filter = Cast<UFilterWidgetBase>(widget))
+    {
+        filter->SetClickEvent(clickEvent);
+    }
+    else
+    {
+        UE_LOG(LogTemp, Warning, TEXT("You shouldn't have items that are not relative to FilterWidgetBase inside FiltersBox!"));
+    }
 }

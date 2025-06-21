@@ -17,24 +17,19 @@ class UI_TEST_API UFilterWidgetBase : public UUserWidget
     GENERATED_BODY()
 
 public:
+    void NativeConstruct();
+    
     void SetData(class UTexture2D* icon, const FText& filterName);
 
-    virtual void NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
-    virtual void NativeOnMouseLeave(const FPointerEvent& InMouseEvent) override;
-    virtual FReply NativeOnMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
+    void SetButtonSelected(bool selected = true);
+    void SetClickEvent(const std::function<void()>& clickEvent) { mClickEvent = clickEvent; };
+
+private:
+    void TriggerClickEvent();
 
 protected:
-    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Visual")
-    UTexture2D* NormalImage;
-
-    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Visual")
-    UTexture2D* HoveredImage;
-
-    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Visual")
-    UTexture2D* SelectedImage;
-
     UPROPERTY(meta = (BindWidget))
-    UImage* Background;
+    class UCheckBox* BackgroundCheckBox;
 
     UPROPERTY(meta = (BindWidget))
     UImage* Icon;
@@ -43,5 +38,5 @@ protected:
     class UTextBlock* FilterName;
 
 private:
-    bool bIsSelected = false;
+    std::function<void()> mClickEvent = []() {};
 };

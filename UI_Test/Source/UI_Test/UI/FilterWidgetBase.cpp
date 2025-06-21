@@ -4,7 +4,17 @@
 #include "FilterWidgetBase.h"
 
 #include "Components/Image.h"
+#include "Components/CheckBox.h"
 #include "Components/TextBlock.h"
+
+void UFilterWidgetBase::NativeConstruct()
+{
+    FScriptDelegate sd;
+    sd.BindUFunction(this, "TriggerClickEvent");
+    BackgroundCheckBox->OnCheckStateChanged.Add(sd); 
+
+    GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Hello, screen!"));
+}
 
 void UFilterWidgetBase::SetData(UTexture2D* icon, const FText& filterName)
 {
@@ -14,25 +24,11 @@ void UFilterWidgetBase::SetData(UTexture2D* icon, const FText& filterName)
     FilterName->SetText(filterName);
 }
 
-void UFilterWidgetBase::NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
+void UFilterWidgetBase::SetButtonSelected(bool selected)
 {
-    if (!bIsSelected)
-        Background->SetBrushFromTexture(HoveredImage);
 }
 
-void UFilterWidgetBase::NativeOnMouseLeave(const FPointerEvent& InMouseEvent)
+void UFilterWidgetBase::TriggerClickEvent()
 {
-    if (!bIsSelected)
-        Background->SetBrushFromTexture(NormalImage);
-}
-
-FReply UFilterWidgetBase::NativeOnMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent)
-{
-    bIsSelected = true;
-    Background->SetBrushFromTexture(SelectedImage);
-
-    // Inform parent that this one is selected (so others can deselect)
-    //OnSelectedDelegate.ExecuteIfBound(this); // optional
-
-    return FReply::Handled();
+    GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Hello, screen!"));
 }

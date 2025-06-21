@@ -27,7 +27,7 @@ class UI_TEST_API UFilterGroupWidgetBase : public UUserWidget
 	GENERATED_BODY()
 
 public:
-	void NativeConstruct();
+	void SetFunctionEventToFilter(const std::function<void()>& clickEvent, int32 index);
 
 protected:    
 #if WITH_EDITOR
@@ -52,7 +52,6 @@ protected:
 	float ItemsPadding;
 
 private:
-	class UGridPanel* mGridPanel;
 	class UVerticalBox* mFiltersBox;
 	class UCheckBox* mGlobalFilterCheckBox;
 };
