@@ -4,26 +4,30 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-#include "CardGridHandlerBase.generated.h"
+#include "GridHandlerBase.generated.h"
 
 /**
- *
+ * 
  */
 UCLASS()
-class UI_TEST_API UCardGridHandlerBase : public UUserWidget
+class UI_TEST_API UGridHandlerBase : public UUserWidget
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    void AddItem(UWidget* item);
+    void AddItem(UWidget* item, int32 layerIndex);
+
+    void ChangeLayer(int32 layerIndex);
 
 protected:
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Settings")
     int32 MaxColumns = 5;
 
     UPROPERTY(meta = (BindWidget))
-    class UUniformGridPanel* CardsGrid;
+    class UUniformGridPanel* MainGrid;
 
 private:
-    class UUniformGridSlot* mLastItem{};
+    TMap<int32, TArray<class UUniformGridSlot*>> mLayeredItems;
+
+    int32 mCurrentLayer = 0;
 };
