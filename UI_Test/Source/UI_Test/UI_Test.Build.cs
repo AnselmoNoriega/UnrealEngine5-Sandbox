@@ -15,7 +15,8 @@ public class UI_Test : ModuleRules
             "Engine",
             "InputCore",
             "EnhancedInput",
-            "UMG"
+            "UMG",
+            "SlateCore"
         });
 
         PrivateDependencyModuleNames.AddRange(new string[] { });
