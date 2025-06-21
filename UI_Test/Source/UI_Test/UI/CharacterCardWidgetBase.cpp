@@ -13,14 +13,30 @@ void UCharacterCardWidgetBase::NativeConstruct()
 {
     Super::NativeConstruct();
 
-    mStateChangeEvents.Add([this](bool isChecked) 
+    Foreground->Brush.SetResourceObject(mIsLocked ? ForegroundLockedDefault : ForegroundDefault);
+
+    mStateChangeEvents.Add([this](bool isChecked)
         {
-            UTexture2D* newForeground = isChecked ? ForegroundSelected : ForegroundDefault;
+            UTexture2D* newForeground{};
+            if (isChecked)
+            {
+                newForeground = mIsLocked ? ForegroundLockedSelected : ForegroundSelected;
+            }
+            else
+            {
+                newForeground = mIsLocked ? ForegroundLockedDefault : ForegroundDefault;
+            }
+
             Foreground->Brush.SetResourceObject(newForeground);
         });
 }
 
-void UCharacterCardWidgetBase::SetData(const FText& characterName, uint32 characterCount, ECharacterType type)
+void UCharacterCardWidgetBase::SetData(
+    const FText& characterName, 
+    uint32 characterCount, 
+    ECharacterType type, 
+    bool isLocked
+)
 {
     CharacterName->SetText(characterName);
 
@@ -29,4 +45,6 @@ void UCharacterCardWidgetBase::SetData(const FText& characterName, uint32 charac
 
     mCharacterType = type;
     CharacterTypeIcon->Brush.SetResourceObject(TypeIcons[type]);
+
+    mIsLocked = isLocked;
 }

@@ -41,7 +41,12 @@ class UI_TEST_API UCharacterCardWidgetBase : public UCheckBoxHandlerWidgetBase
 public:
     void NativeConstruct() override;
 
-    void SetData(const FText& characterName, uint32 characterCount, ECharacterType type);
+    void SetData(
+        const FText& characterName, 
+        uint32 characterCount, 
+        ECharacterType type,
+        bool isLocked = false
+    );
 
 protected:
     UPROPERTY(meta = (BindWidget))
@@ -66,6 +71,12 @@ protected:
     UTexture2D* ForegroundSelected;
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Visual")
+    UTexture2D* ForegroundLockedDefault;
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Visual")
+    UTexture2D* ForegroundLockedSelected;
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Visual")
     TMap<ECharacterType, UTexture2D*> TypeIcons;
 
     UPROPERTY(EditDefaultsOnly, Category = "Settings")
@@ -73,6 +84,8 @@ protected:
 
 private:
     ECharacterType mCharacterType;
+
+    bool mIsLocked = false;
 
     static int32 sMaxCharacterCount;
 };
