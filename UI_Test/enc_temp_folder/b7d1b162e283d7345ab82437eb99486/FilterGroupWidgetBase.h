@@ -48,9 +48,6 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Filters")
 	TSubclassOf<class UFilterWidgetBase> FilterClass;
 
-	UPROPERTY(EditAnywhere, Category = "Filters")
-	float ItemsPadding;
-
 private:
 	class UGridPanel* mGridPanel;
 	class UVerticalBox* mFiltersBox;

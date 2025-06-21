@@ -37,8 +37,7 @@ void UFilterGroupWidgetBase::PostEditChangeProperty(FPropertyChangedEvent& Prope
     /* Attempted to check the only edited index and update it, but
        I didn't find a clean way to do so. */
     if (PropertyChangedEvent.Property->GetFName() == filtersPropertyName ||
-        PropertyChangedEvent.Property->GetOwnerStruct() == FFilterWidgetData::StaticStruct() ||
-        PropertyChangedEvent.Property->GetFName() == "ItemsPadding")
+        PropertyChangedEvent.Property->GetOwnerStruct() == FFilterWidgetData::StaticStruct())
     {
         ResetFilterList();
     }
@@ -70,9 +69,6 @@ void UFilterGroupWidgetBase::ResetFilterList()
         UFilterWidgetBase* filterWidget = CreateWidget<UFilterWidgetBase>(this, FilterClass);
         mFiltersBox->AddChildToVerticalBox(filterWidget);
 
-        FMargin padding = filterWidget->GetPadding();
-        padding.Bottom = ItemsPadding;
-        filterWidget->SetPadding(padding);
         filterWidget->SetData(data.FilterIcon, data.FilterName);
     }
 }
