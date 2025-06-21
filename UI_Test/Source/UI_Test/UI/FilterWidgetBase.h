@@ -19,6 +19,10 @@ class UI_TEST_API UFilterWidgetBase : public UUserWidget
 public:
     void SetData(class UTexture2D* icon, const FText& filterName);
 
+    virtual void NativeOnMouseEnter(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
+    virtual void NativeOnMouseLeave(const FPointerEvent& InMouseEvent) override;
+    virtual FReply NativeOnMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
+
 protected:
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Visual")
     UTexture2D* NormalImage;
@@ -30,8 +34,14 @@ protected:
     UTexture2D* SelectedImage;
 
     UPROPERTY(meta = (BindWidget))
+    UImage* Background;
+
+    UPROPERTY(meta = (BindWidget))
     UImage* Icon;
 
     UPROPERTY(meta = (BindWidget))
     class UTextBlock* FilterName;
+
+private:
+    bool bIsSelected = false;
 };

@@ -19,7 +19,7 @@ void ATestHelperBase::BeginPlay()
 	Super::BeginPlay();
 
 	APlayerController* pc = GetWorld()->GetFirstPlayerController();
-	pc->SetInputMode(FInputModeGameAndUI());
+	pc->SetInputMode(FInputModeUIOnly());
 	pc->bShowMouseCursor = true;
 
 	mCharacterSelectWidget = CreateWidget<UUserWidget>(pc, CharacterSelectClass);
