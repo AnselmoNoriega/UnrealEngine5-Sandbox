@@ -7,8 +7,6 @@
 #include "Components/CheckBox.h"
 #include "Components/TextBlock.h"
 
-int32 UCharacterCardWidgetBase::sMaxCharacterCount{};
-
 void UCharacterCardWidgetBase::NativeConstruct()
 {
     Super::NativeConstruct();
@@ -40,11 +38,12 @@ void UCharacterCardWidgetBase::SetData(
 {
     CharacterName->SetText(characterName);
 
-    FString characterCountText = FString::Printf(TEXT("%d/ %d"), characterCount, sMaxCharacterCount);
+    FString characterCountText = FString::Printf(TEXT("%d/ %d"), characterCount, MaxCharacterCount);
     CountTextBlock->SetText(FText::FromString(characterCountText));
 
     mCharacterType = type;
     CharacterTypeIcon->Brush.SetResourceObject(TypeIcons[type]);
 
     mIsLocked = isLocked;
+    Foreground->Brush.SetResourceObject(mIsLocked ? ForegroundLockedDefault : ForegroundDefault);
 }

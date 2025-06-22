@@ -16,6 +16,10 @@ void UGridHandlerBase::AddItem(UWidget* item, int32 layerIndex)
     {
         lastItem = items->IsEmpty() ? nullptr : items->Last();
     }
+    else
+    {
+        mLayeredItems.Add(0);
+    }
 
     if (lastItem && lastItem->Column >= MaxColumns - 1)
     {
@@ -36,7 +40,39 @@ void UGridHandlerBase::AddItem(UWidget* item, int32 layerIndex)
     }
 }
 
+void UGridHandlerBase::ClearLayer(int32 layerIndex)
+{
+    if (TArray<UUniformGridSlot*>* items = mLayeredItems.Find(layerIndex))
+    {
+        for (UUniformGridSlot* item : *items)
+        {
+            if (item)
+            {
+                item->ConditionalBeginDestroy();
+            }
+        }
+
+        items->Empty();
+    }
+}
+
+void UGridHandlerBase::ClearItems()
+{
+    MainGrid->ClearChildren();
+}
+
 void UGridHandlerBase::ChangeLayer(int32 layerIndex)
 {
-    //TODO
+    for (auto* item : mLayeredItems[mCurrentLayer])
+    {
+        item->Content->SetIsEnabled(false);
+        item->Content->SetRenderOpacity(0.0);
+    }
+
+    mCurrentLayer = layerIndex;
+    for (auto* item : mLayeredItems[mCurrentLayer])
+    {
+        item->Content->SetIsEnabled(true);
+        item->Content->SetRenderOpacity(1.0);
+    }
 }

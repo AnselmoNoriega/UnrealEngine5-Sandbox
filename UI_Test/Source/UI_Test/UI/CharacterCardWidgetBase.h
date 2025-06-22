@@ -4,6 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "UI_Test/UI/Abstract/CheckBoxHandlerWidgetBase.h"
+
+#include "UI_Test/Enums/CharacterType.h"
+
 #include "CharacterCardWidgetBase.generated.h"
 
 /**
@@ -11,15 +14,6 @@
  */
 class UImage;
 class UTextBlock;
-
-UENUM(BlueprintType)
-enum class ECharacterType : uint8
-{
-    SUPPORT     UMETA(DisplayName = "Support"),
-    TANK        UMETA(DisplayName = "Tank"),
-    BRAWLER     UMETA(DisplayName = "Brawler"),
-    ASSASIN     UMETA(DisplayName = "Assasin")
-};
 
 USTRUCT(BlueprintType)
 struct FCharacterTypeIcons
@@ -86,6 +80,4 @@ private:
     ECharacterType mCharacterType;
 
     bool mIsLocked = false;
-
-    static int32 sMaxCharacterCount;
 };

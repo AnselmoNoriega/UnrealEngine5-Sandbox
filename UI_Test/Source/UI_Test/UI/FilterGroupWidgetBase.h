@@ -29,7 +29,7 @@ class UI_TEST_API UFilterGroupWidgetBase : public UUserWidget
 public:
 	void SetFunctionEventToFilter(const std::function<void()>& clickEvent, int32 index);
 
-protected:    
+protected:
 #if WITH_EDITOR
 	void PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) override;
 #endif

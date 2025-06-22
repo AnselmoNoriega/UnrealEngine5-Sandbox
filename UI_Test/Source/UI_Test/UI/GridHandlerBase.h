@@ -16,6 +16,8 @@ class UI_TEST_API UGridHandlerBase : public UUserWidget
 
 public:
     void AddItem(UWidget* item, int32 layerIndex);
+    void ClearLayer(int32 layerIndex);
+    void ClearItems();
 
     void ChangeLayer(int32 layerIndex);
 
