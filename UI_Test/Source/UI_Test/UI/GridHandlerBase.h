@@ -15,24 +15,42 @@ class UI_TEST_API UGridHandlerBase : public UUserWidget
 	GENERATED_BODY()
 
 public:
+    UFUNCTION(CallInEditor, Category = "Test")
+    void AddItemFromEditor();
+    UFUNCTION(CallInEditor, Category = "Test")
+    void ClearItemFromEditor();
+    UPROPERTY(EditAnywhere, Category = "Test")
+    TSubclassOf<UWidget> TestItem;
+
+    UPROPERTY(EditAnywhere, Category = "Test")
+    int32 TestLayerIndex = 0;
+
+
     void AddItem(UWidget* item, int32 layerIndex);
     void ClearLayer(int32 layerIndex);
     void ClearItems();
 
     void ChangeLayer(int32 layerIndex);
 
+private:
+    void GetLastRow();
+
 protected:
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Settings")
     int32 MaxColumns = 5;
 
-    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Settings")
-    float BottomPadding = 10.0f;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings")
+    FMargin ItemPadding;
 
     UPROPERTY(meta = (BindWidget))
-    class UUniformGridPanel* MainGrid;
+    class UVerticalBox* MainGrid;
+
+    UPROPERTY(meta = (BindWidget))
+    class UHorizontalBox* FirstRow;
 
 private:
-    TMap<int32, TArray<class UUniformGridSlot*>> mLayeredItems;
+    TMap<int32, TArray<UWidget*>> mLayeredItems;
 
+    class UHorizontalBox* mCurrentRow = nullptr;
     int32 mCurrentLayer = 0;
 };

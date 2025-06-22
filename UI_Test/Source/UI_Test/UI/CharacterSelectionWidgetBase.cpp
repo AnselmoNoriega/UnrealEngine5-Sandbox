@@ -40,6 +40,11 @@ void UCharacterSelectionWidgetBase::SynchronizeProperties()
 
 void UCharacterSelectionWidgetBase::SetCardsInDeck()
 {
+    if (!GridHandlerWidget)
+    {
+        return;
+    }
+
     GridHandlerWidget->ClearItems();
     for (auto& item : CharacterCards)
     {

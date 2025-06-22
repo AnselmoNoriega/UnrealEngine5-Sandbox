@@ -27,15 +27,6 @@ void UGridHandlerBase::ClearItemFromEditor()
 
 void UGridHandlerBase::AddItem(UWidget* item, int32 layerIndex)
 {
-    if (!mCurrentRow)
-    {
-        GetLastRow();
-        if (!mCurrentRow)
-        {
-            return;
-        }
-    }
-
     if (mCurrentRow->GetChildrenCount() >= MaxColumns)
     {
         mCurrentRow = NewObject<UHorizontalBox>(this);
