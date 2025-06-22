@@ -36,6 +36,7 @@ public:
     void NativeConstruct() override;
 
     void SetData(
+        UTexture2D* characterImage,
         const FText& characterName, 
         uint32 characterCount, 
         ECharacterType type,

@@ -30,12 +30,15 @@ void UCharacterCardWidgetBase::NativeConstruct()
 }
 
 void UCharacterCardWidgetBase::SetData(
+    UTexture2D* characterImage,
     const FText& characterName, 
     uint32 characterCount, 
     ECharacterType type, 
     bool isLocked
 )
 {
+    CharacterIcon->Brush.SetResourceObject(characterImage);
+
     CharacterName->SetText(characterName);
 
     FString characterCountText = FString::Printf(TEXT("%d/ %d"), characterCount, MaxCharacterCount);

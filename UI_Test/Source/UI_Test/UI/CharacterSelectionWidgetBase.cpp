@@ -89,6 +89,7 @@ void UCharacterSelectionWidgetBase::SetCardsInDeck()
     {
         UCharacterCardWidgetBase* newCard = CreateWidget<UCharacterCardWidgetBase>(this, CardClass.Get());
         newCard->SetData(
+            item.CharacterImage,
             item.CharacterName,
             item.CharacterCount,
             item.Type,

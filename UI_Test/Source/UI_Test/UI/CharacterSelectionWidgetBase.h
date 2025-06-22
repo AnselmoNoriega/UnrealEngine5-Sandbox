@@ -21,6 +21,9 @@ struct FCharacterCardInfo
     GENERATED_BODY();
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character")
+    UTexture2D* CharacterImage;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character")
     FText CharacterName{};
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character")

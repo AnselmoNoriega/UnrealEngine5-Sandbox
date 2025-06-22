@@ -45,6 +45,8 @@ protected:
 	class UVerticalBox* FiltersBox;
 
 private:
+	class UCheckBox* mGlobalFilterCheckBox;
+
 	UFilterWidgetBase* mSelectedFilter;
 
 	TArray<UFilterWidgetBase*> mFilters;
