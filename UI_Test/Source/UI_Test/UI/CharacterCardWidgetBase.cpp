@@ -31,9 +31,9 @@ void UCharacterCardWidgetBase::NativeConstruct()
 
 void UCharacterCardWidgetBase::SetData(
     UTexture2D* characterImage,
-    const FText& characterName, 
-    uint32 characterCount, 
-    ECharacterType type, 
+    const FText& characterName,
+    uint32 characterCount,
+    ECharacterType type,
     bool isLocked
 )
 {
@@ -49,4 +49,5 @@ void UCharacterCardWidgetBase::SetData(
 
     mIsLocked = isLocked;
     Foreground->Brush.SetResourceObject(mIsLocked ? ForegroundLockedDefault : ForegroundDefault);
+    SetRenderOpacity(isLocked ? OpacityForLockedItem : 1.0f);
 }

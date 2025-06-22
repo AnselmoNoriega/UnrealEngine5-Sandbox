@@ -7,6 +7,8 @@
 #include "GridHandlerBase.h"
 #include "CharacterCardWidgetBase.h"
 
+#include "Components/CheckBox.h"
+
 void UCharacterSelectionWidgetBase::NativeConstruct()
 {
     Super::NativeConstruct();
@@ -14,17 +16,10 @@ void UCharacterSelectionWidgetBase::NativeConstruct()
     SetFilters();
     SetCardsInDeck();
 
-    //CharactersFilterWidget->SetFunctionEventToFilter([]() {
-        //
-        //}, 0);
-
-    //SetFilters();
-    //SetCardsInDeck();
-}
-
-void UCharacterSelectionWidgetBase::SyncData_Implementation()
-{
-    SetCardsInDeck();
+    if (ShowLockedCheckBox)
+    {
+        ShowLockedCheckBox->OnCheckStateChanged.AddDynamic(this, &UCharacterSelectionWidgetBase::LockedCheckBoxChange);
+    }
 }
 
 #if WITH_EDITOR
@@ -68,7 +63,7 @@ void UCharacterSelectionWidgetBase::SetFilters()
     for (auto& filter : Filters)
     {
         CharactersFilterWidget->AddFilter(filter.FilterIcon, filter.FilterName);
-        
+
         ECharacterType newType = ECharacterType(index + 1);
         CharactersFilterWidget->SetFunctionEventToFilter([this, newType]()
             {
@@ -104,11 +99,22 @@ void UCharacterSelectionWidgetBase::SetCardsInDeck()
     }
 
     GridHandlerWidget->ClearItems();
-    for (auto& card : mCardsHolded)
+    for (auto* card : mCardsHolded)
     {
+        if (!mShowLockedItems && card->IsLocked())
+        {
+            continue;
+        }
+
         if (mCurrentLayer == ECharacterType::ALL || card->GetType() == mCurrentLayer)
         {
             GridHandlerWidget->AddItem(card);
         }
     }
+}
+
+void UCharacterSelectionWidgetBase::LockedCheckBoxChange(bool isChecked)
+{
+    mShowLockedItems = isChecked;
+    SetCardsInDeck();
 }

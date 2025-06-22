@@ -44,6 +44,7 @@ public:
     );
 
     ECharacterType GetType() { return mCharacterType; }
+    bool IsLocked() { return mIsLocked; }
 
 protected:
     UPROPERTY(meta = (BindWidget))
@@ -75,6 +76,9 @@ protected:
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Visual")
     TMap<ECharacterType, UTexture2D*> TypeIcons;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Visual")
+    float OpacityForLockedItem = 0.5f;
 
     UPROPERTY(EditDefaultsOnly, Category = "Settings")
     int32 MaxCharacterCount = 12;
