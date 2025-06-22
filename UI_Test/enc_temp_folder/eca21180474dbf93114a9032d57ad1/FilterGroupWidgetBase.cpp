@@ -10,7 +10,7 @@
 #include "Components/CheckBox.h"
 #include "Blueprint/WidgetTree.h"
 
-void UFilterGroupWidgetBase::InitFilterGroupLogic()
+void UFilterGroupWidgetBase::NativeConstruct()
 {
     if (mFilters.IsEmpty())
     {

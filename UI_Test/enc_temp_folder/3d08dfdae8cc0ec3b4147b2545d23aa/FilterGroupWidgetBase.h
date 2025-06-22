@@ -17,7 +17,7 @@ class UI_TEST_API UFilterGroupWidgetBase : public UUserWidget
 	GENERATED_BODY()
 
 public:
-	void InitFilterGroupLogic();
+	void NativeConstruct() override;
 
 	void AddFilter(UTexture2D* icon, const FText& lable);
 	void ClearFilters();

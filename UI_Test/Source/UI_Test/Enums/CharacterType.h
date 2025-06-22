@@ -17,6 +17,6 @@ enum class ECharacterType : uint8
     SUPPORT     = 1 << 0 UMETA(DisplayName = "Support"),
     TANK        = 1 << 1 UMETA(DisplayName = "Tank"),
     BRAWLER     = 1 << 2 UMETA(DisplayName = "Brawler"),
-    ASSASIN     = 1 << 3 UMETA(DisplayName = "Assasin")
+    ASSASSIN     = 1 << 3 UMETA(DisplayName = "Assassin")
 };
 ENUM_CLASS_FLAGS(ECharacterType)

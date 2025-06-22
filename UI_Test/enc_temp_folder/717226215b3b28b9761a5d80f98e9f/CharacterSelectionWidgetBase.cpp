@@ -11,9 +11,6 @@ void UCharacterSelectionWidgetBase::NativeConstruct()
 {
     Super::NativeConstruct();
 
-    SetFilters();
-    SetCardsInDeck();
-
     //CharactersFilterWidget->SetFunctionEventToFilter([]() {
         //
         //}, 0);
@@ -68,8 +65,6 @@ void UCharacterSelectionWidgetBase::SetFilters()
     {
         CharactersFilterWidget->AddFilter(filter.FilterIcon, filter.FilterName);
     }
-
-    CharactersFilterWidget->InitFilterGroupLogic();
 }
 
 void UCharacterSelectionWidgetBase::SetCardsInDeck()

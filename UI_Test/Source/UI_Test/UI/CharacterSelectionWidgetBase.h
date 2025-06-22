@@ -33,6 +33,18 @@ struct FCharacterCardInfo
     bool isCardLocked = false;
 };
 
+USTRUCT(BlueprintType)
+struct FFilterWidgetData
+{
+    GENERATED_BODY()
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Filter")
+    UTexture2D* FilterIcon;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Filter")
+    FText FilterName;
+};
+
 UCLASS()
 class UI_TEST_API UCharacterSelectionWidgetBase : public UUserWidget, public ISyncTargetInterface
 {
@@ -51,6 +63,7 @@ protected:
 	void SynchronizeProperties() override;
 
 private:
+	void SetFilters();
 	void SetCardsInDeck();
 
 protected:
@@ -65,6 +78,9 @@ protected:
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Values")
     TSubclassOf<UCharacterCardWidgetBase> CardClass;
+
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Values")
+    TArray<FFilterWidgetData> Filters;
 
 private:
     TArray<UCharacterCardWidgetBase*> mCardsHolded;

@@ -9,9 +9,11 @@
 #include "Components/HorizontalBox.h"
 #include "Components/HorizontalBoxSlot.h"
 
+#if WITH_EDITOR
 void UGridHandlerBase::PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent)
 {
 }
+#endif
 
 void UGridHandlerBase::SynchronizeProperties()
 {
