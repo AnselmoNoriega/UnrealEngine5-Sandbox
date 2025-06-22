@@ -17,7 +17,6 @@ class UI_TEST_API UCheckBoxHandlerWidgetBase : public UUserWidget
 public:
     void NativeConstruct() override;
 
-    bool IsButtonSelected();
     void SetButtonSelected(bool selected = true);
 
     void AddClickEvent(const std::function<void()>& clickEvent) { mClickEvents.Add(clickEvent); };

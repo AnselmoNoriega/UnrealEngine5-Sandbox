@@ -14,14 +14,9 @@ void UCheckBoxHandlerWidgetBase::NativeConstruct()
     BackgroundCheckBox->OnCheckStateChanged.AddDynamic(this, &UCheckBoxHandlerWidgetBase::TriggerClickEvent);
 }
 
-bool UCheckBoxHandlerWidgetBase::IsButtonSelected()
-{
-    return BackgroundCheckBox->IsChecked();
-}
-
 void UCheckBoxHandlerWidgetBase::SetButtonSelected(bool selected)
 {
-    BackgroundCheckBox->SetIsChecked(selected);
+    BackgroundCheckBox->SetIsChecked(false);
 }
 
 void UCheckBoxHandlerWidgetBase::TriggerClickEvent(bool isChecked)

@@ -29,12 +29,6 @@ void UFilterGroupWidgetBase::InitFilterGroupLogic()
                 mSelectedFilter = filter;
             }
             });
-        filter->AddStateChangeEvent([this, filter](bool isChecked) {
-            if (!isChecked && mSelectedFilter == filter)
-            {
-                mSelectedFilter->SetButtonSelected();
-            }
-            });
     }
 }
 
