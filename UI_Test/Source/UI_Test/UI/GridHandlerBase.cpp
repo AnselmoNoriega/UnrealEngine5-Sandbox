@@ -18,7 +18,7 @@ void UGridHandlerBase::AddItem(UWidget* item, int32 layerIndex)
     }
     else
     {
-        mLayeredItems.Add(0);
+        mLayeredItems.Add(layerIndex);
     }
 
     if (lastItem && lastItem->Column >= MaxColumns - 1)
@@ -28,9 +28,13 @@ void UGridHandlerBase::AddItem(UWidget* item, int32 layerIndex)
     else if (lastItem)
     {
         column = lastItem->Column + 1;
+        row = lastItem->Row;
     }
 
-    UUniformGridSlot* itemSlot = MainGrid->AddChildToUniformGrid(item, column, row);
+    UUniformGridSlot* itemSlot = MainGrid->AddChildToUniformGrid(item, row, column);
+    itemSlot->SetHorizontalAlignment(EHorizontalAlignment::HAlign_Center);
+    itemSlot->SetVerticalAlignment(EVerticalAlignment::VAlign_Center);
+
     mLayeredItems[layerIndex].Add(itemSlot);
 
     if (mCurrentLayer != layerIndex)
@@ -59,6 +63,7 @@ void UGridHandlerBase::ClearLayer(int32 layerIndex)
 void UGridHandlerBase::ClearItems()
 {
     MainGrid->ClearChildren();
+    mLayeredItems.Empty();
 }
 
 void UGridHandlerBase::ChangeLayer(int32 layerIndex)
