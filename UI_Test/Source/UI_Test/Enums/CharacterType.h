@@ -9,11 +9,14 @@
  * 
  */
 
-UENUM(BlueprintType)
+UENUM(BlueprintType, meta = (Bitflags))
 enum class ECharacterType : uint8
 {
-    SUPPORT     UMETA(DisplayName = "Support"),
-    TANK        UMETA(DisplayName = "Tank"),
-    BRAWLER     UMETA(DisplayName = "Brawler"),
-    ASSASIN     UMETA(DisplayName = "Assasin")
+    NONE        = 0 << 0 UMETA(DisplayName = "NONE"),
+    ALL         = 0xFF   UMETA(DisplayName = "All"),
+    SUPPORT     = 1 << 0 UMETA(DisplayName = "Support"),
+    TANK        = 1 << 1 UMETA(DisplayName = "Tank"),
+    BRAWLER     = 1 << 2 UMETA(DisplayName = "Brawler"),
+    ASSASIN     = 1 << 3 UMETA(DisplayName = "Assasin")
 };
+ENUM_CLASS_FLAGS(ECharacterType)

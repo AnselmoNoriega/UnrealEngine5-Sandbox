@@ -42,6 +42,8 @@ public:
         bool isLocked = false
     );
 
+    ECharacterType GetType() { return mCharacterType; }
+
 protected:
     UPROPERTY(meta = (BindWidget))
     UTextBlock* CharacterName;

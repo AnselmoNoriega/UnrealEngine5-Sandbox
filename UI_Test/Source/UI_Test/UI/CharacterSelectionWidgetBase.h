@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 
+#include "UI_Test/Interfaces/SyncTargetInterface.h"
 #include "UI_Test/Enums/CharacterType.h"
 
 #include "CharacterSelectionWidgetBase.generated.h"
@@ -12,31 +13,35 @@
 /**
  * 
  */
+class UCharacterCardWidgetBase;
+
 USTRUCT(BlueprintType)
 struct FCharacterCardInfo
 {
-	GENERATED_BODY();
+    GENERATED_BODY();
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character")
-	FText CharacterName{};
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character")
+    FText CharacterName{};
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character")
-	int32 CharacterCount{};
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character")
+    int32 CharacterCount{};
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character")
-	ECharacterType Type{};
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character")
+    ECharacterType Type{};
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character")
-	bool isCardLocked = false;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character")
+    bool isCardLocked = false;
 };
 
 UCLASS()
-class UI_TEST_API UCharacterSelectionWidgetBase : public UUserWidget
+class UI_TEST_API UCharacterSelectionWidgetBase : public UUserWidget, public ISyncTargetInterface
 {
 	GENERATED_BODY()
 
 public:
 	void NativeConstruct() override;
+
+    void SyncData_Implementation() override;
 
 protected:
 #if WITH_EDITOR
@@ -55,9 +60,14 @@ protected:
 	UPROPERTY(meta = (BindWidget))
 	class UGridHandlerBase* GridHandlerWidget;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Values")
-	TSubclassOf<class UCharacterCardWidgetBase> CardClass;
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Values")
+    TArray<FCharacterCardInfo> CharacterCards;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Values")
-	TArray<FCharacterCardInfo> CharacterCards;
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Values")
+    TSubclassOf<UCharacterCardWidgetBase> CardClass;
+
+private:
+    TArray<UCharacterCardWidgetBase*> mCardsHolded;
+
+    ECharacterType mCurrentLayer = ECharacterType::ALL;
 };

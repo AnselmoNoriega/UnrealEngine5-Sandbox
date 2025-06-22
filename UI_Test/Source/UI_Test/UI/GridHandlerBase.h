@@ -4,12 +4,14 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+
+#include "UI_Test/Interfaces/SyncTargetInterface.h"
+
 #include "GridHandlerBase.generated.h"
 
 /**
  * 
  */
-
 UCLASS()
 class UI_TEST_API UGridHandlerBase : public UUserWidget
 {
@@ -23,17 +25,20 @@ public:
     UPROPERTY(EditAnywhere, Category = "Test")
     TSubclassOf<UWidget> TestItem;
 
-    UPROPERTY(EditAnywhere, Category = "Test")
-    int32 TestLayerIndex = 0;
+    void SetSyncTargetReference(TScriptInterface<ISyncTargetInterface>& target)
+    {
+        SyncTarget = target;
+    }
 
-
-    void AddItem(UWidget* item, int32 layerIndex);
-    void ClearLayer(int32 layerIndex);
+    void AddCards();
+    void AddItem(UWidget* item);
     void ClearItems();
 
-    void ChangeLayer(int32 layerIndex);
-
 protected:
+#if WITH_EDITOR
+    void PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) override;
+#endif
+
     void SynchronizeProperties() override;
 
 protected:
@@ -43,14 +48,9 @@ protected:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings")
     FMargin ItemPadding;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings")
-    TArray<int> DebugMyAss;
-
     UPROPERTY(meta = (BindWidget))
-    class UCanvasPanel* RootCanvas;
+    class UVerticalBox* MainLayer;
 
-private:
-    TMap<int32, class UVerticalBox*> mLayeredItems;
-
-    int32 mCurrentLayer = 0;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Sync")
+    TScriptInterface<ISyncTargetInterface> SyncTarget;
 };

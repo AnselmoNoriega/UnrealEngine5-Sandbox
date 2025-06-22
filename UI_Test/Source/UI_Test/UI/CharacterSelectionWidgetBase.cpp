@@ -10,6 +10,10 @@
 void UCharacterSelectionWidgetBase::NativeConstruct()
 {
     Super::NativeConstruct();
+}
+
+void UCharacterSelectionWidgetBase::SyncData_Implementation()
+{
     SetCardsInDeck();
 }
 
@@ -44,22 +48,30 @@ void UCharacterSelectionWidgetBase::SynchronizeProperties()
 
 void UCharacterSelectionWidgetBase::SetCardsInDeck()
 {
+    mCardsHolded.Empty();
+    for (auto& item : CharacterCards)
+    {
+        UCharacterCardWidgetBase* newCard = CreateWidget<UCharacterCardWidgetBase>(this, CardClass.Get());
+        newCard->SetData(
+            item.CharacterName,
+            item.CharacterCount,
+            item.Type,
+            item.isCardLocked
+        );
+        mCardsHolded.Add(newCard);
+    }
+
     if (!GridHandlerWidget)
     {
         return;
     }
 
     GridHandlerWidget->ClearItems();
-    for (auto& item : CharacterCards)
+    for (auto& card : mCardsHolded)
     {
-        UCharacterCardWidgetBase* newCard = CreateWidget<UCharacterCardWidgetBase>(this, CardClass.Get());
-        newCard->SetData(
-            item.CharacterName, 
-            item.CharacterCount,
-            item.Type,
-            item.isCardLocked
-        );
-
-        GridHandlerWidget->AddItem(newCard, 0);
+        if (EnumHasAnyFlags(card->GetType(), mCurrentLayer))
+        {
+            GridHandlerWidget->AddItem(card);
+        }
     }
 }

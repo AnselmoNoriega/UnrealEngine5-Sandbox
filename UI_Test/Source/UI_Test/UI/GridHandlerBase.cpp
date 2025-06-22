@@ -9,9 +9,57 @@
 #include "Components/HorizontalBox.h"
 #include "Components/HorizontalBoxSlot.h"
 
+void UGridHandlerBase::PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent)
+{
+}
+
 void UGridHandlerBase::SynchronizeProperties()
 {
     Super::SynchronizeProperties();
+
+    if (SyncTarget)
+    {
+        SyncTarget->Execute_SyncData(SyncTarget.GetObject());
+    }
+}
+
+void UGridHandlerBase::AddCards()
+{
+}
+
+void UGridHandlerBase::AddItem(UWidget* item)
+{
+    if (!MainLayer)
+    {
+        return;
+    }
+
+    UWidget* columnWidget = MainLayer->GetChildAt(MainLayer->GetChildrenCount() - 1);
+    UHorizontalBox* columnBox = Cast<UHorizontalBox>(columnWidget);
+    if (columnBox)
+    {
+        if (columnBox->GetChildrenCount() >= MaxColumns)
+        {
+            columnBox = NewObject<UHorizontalBox>(this);
+            MainLayer->AddChildToVerticalBox(columnBox);
+        }
+    }
+    else
+    {
+        columnBox = NewObject<UHorizontalBox>(this);
+        MainLayer->AddChildToVerticalBox(columnBox);
+    }
+
+    UHorizontalBoxSlot* hSlot = Cast<UHorizontalBoxSlot>(columnBox->AddChildToHorizontalBox(item));
+    hSlot->SetPadding(ItemPadding);
+}
+
+void UGridHandlerBase::ClearItems()
+{
+    if (MainLayer)
+    {
+        MainLayer->ClearChildren();
+    }
 }
 
 void UGridHandlerBase::AddItemFromEditor()
@@ -23,101 +71,10 @@ void UGridHandlerBase::AddItemFromEditor()
     }
 
     auto t = CreateWidget<>(this, TestItem.Get());
-    AddItem(t, TestLayerIndex);
+    AddItem(t);
 }
 
 void UGridHandlerBase::ClearItemFromEditor()
 {
     ClearItems();
-}
-
-void UGridHandlerBase::AddItem(UWidget* item, int32 layerIndex)
-{
-    UVerticalBox** itemsInLayerPtr = mLayeredItems.Find(layerIndex);
-    UVerticalBox* itemsInLayer = nullptr;
-    
-    DebugMyAss.Add(1);
-    if (!itemsInLayerPtr)
-    {
-        itemsInLayer = NewObject<UVerticalBox>(this);
-        RootCanvas->AddChild(itemsInLayer);
-        mLayeredItems.Add(layerIndex, itemsInLayer);
-
-        UHorizontalBox* firstColumn = NewObject<UHorizontalBox>(this);
-        itemsInLayer->AddChildToVerticalBox(firstColumn);
-    }
-    else
-    {
-        itemsInLayer = *itemsInLayerPtr;
-    }
-
-    UWidget* columnWidget = itemsInLayer->GetChildAt(itemsInLayer->GetChildrenCount() - 1);
-    UHorizontalBox* columnBox = Cast<UHorizontalBox>(columnWidget);
-    if (columnBox)
-    {
-        if (columnBox->GetChildrenCount() >= MaxColumns)
-        {
-            columnBox = NewObject<UHorizontalBox>(this);
-            itemsInLayer->AddChildToVerticalBox(columnBox);
-        }
-    }
-    else
-    {
-        columnBox = NewObject<UHorizontalBox>(this);
-        itemsInLayer->AddChildToVerticalBox(columnBox);
-    }
-
-    UHorizontalBoxSlot* hSlot = Cast<UHorizontalBoxSlot>(columnBox->AddChildToHorizontalBox(item));
-    hSlot->SetPadding(ItemPadding);
-
-    if (mCurrentLayer != layerIndex)
-    {
-        item->SetIsEnabled(false);
-        item->SetRenderOpacity(0.0);
-    }
-
-    //Modify();
-}
-
-void UGridHandlerBase::ClearLayer(int32 layerIndex)
-{
-    //if (TArray<UUniformGridSlot*>* items = mLayeredItems.Find(layerIndex))
-    //{
-    //    for (UUniformGridSlot* item : *items)
-    //    {
-    //        if (item)
-    //        {
-    //            item->ConditionalBeginDestroy();
-    //        }
-    //    }
-    //
-    //    items->Empty();
-    //}
-}
-
-void UGridHandlerBase::ClearItems()
-{
-    if (RootCanvas)
-    {
-        RootCanvas->ClearChildren();
-    }
-    
-    mCurrentLayer = 0;
-    mLayeredItems.Empty();
-}
-
-void UGridHandlerBase::ChangeLayer(int32 layerIndex)
-{
-    //for (auto* item : mLayeredItems[mCurrentLayer])
-    {
-        //item->Content->SetIsEnabled(false);
-        //item->Content->SetRenderOpacity(0.0);
-    }
-
-    mCurrentLayer = layerIndex;
-    //for (auto* item : mLayeredItems[mCurrentLayer])
-    {
-        //item->Content->SetIsEnabled(true);
-        //item->Content->SetRenderOpacity(1.0);
-    }
 }
