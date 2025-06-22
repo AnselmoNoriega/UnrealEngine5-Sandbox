@@ -9,8 +9,11 @@
 
 void UCharacterSelectionWidgetBase::NativeConstruct()
 {
+    Super::NativeConstruct();
+    SetCardsInDeck();
 }
 
+#if WITH_EDITOR
 void UCharacterSelectionWidgetBase::PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent)
 {
     Super::PostEditChangeProperty(PropertyChangedEvent);
@@ -30,6 +33,7 @@ void UCharacterSelectionWidgetBase::PostEditChangeProperty(FPropertyChangedEvent
         SetCardsInDeck();
     }
 }
+#endif
 
 void UCharacterSelectionWidgetBase::SynchronizeProperties()
 {

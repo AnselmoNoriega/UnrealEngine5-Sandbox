@@ -33,22 +33,15 @@ void UGridHandlerBase::ClearItemFromEditor()
 
 void UGridHandlerBase::AddItem(UWidget* item, int32 layerIndex)
 {
-    UVerticalBox** itemsInLayerPtr = mLayeredItems.Find(layerIndex);
-    UVerticalBox* itemsInLayer = nullptr;
-    
-    DebugMyAss.Add(1);
-    if (!itemsInLayerPtr)
+    UVerticalBox* itemsInLayer = *mLayeredItems.Find(layerIndex);
+    if (!itemsInLayer)
     {
+        itemsInLayer = mLayeredItems.Add(layerIndex);
         itemsInLayer = NewObject<UVerticalBox>(this);
         RootCanvas->AddChild(itemsInLayer);
-        mLayeredItems.Add(layerIndex, itemsInLayer);
 
         UHorizontalBox* firstColumn = NewObject<UHorizontalBox>(this);
         itemsInLayer->AddChildToVerticalBox(firstColumn);
-    }
-    else
-    {
-        itemsInLayer = *itemsInLayerPtr;
     }
 
     UWidget* columnWidget = itemsInLayer->GetChildAt(itemsInLayer->GetChildrenCount() - 1);
@@ -75,8 +68,6 @@ void UGridHandlerBase::AddItem(UWidget* item, int32 layerIndex)
         item->SetIsEnabled(false);
         item->SetRenderOpacity(0.0);
     }
-
-    //Modify();
 }
 
 void UGridHandlerBase::ClearLayer(int32 layerIndex)

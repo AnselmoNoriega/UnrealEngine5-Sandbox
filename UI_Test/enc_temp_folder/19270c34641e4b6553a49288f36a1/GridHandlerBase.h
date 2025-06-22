@@ -9,7 +9,6 @@
 /**
  * 
  */
-
 UCLASS()
 class UI_TEST_API UGridHandlerBase : public UUserWidget
 {
@@ -42,9 +41,6 @@ protected:
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings")
     FMargin ItemPadding;
-
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings")
-    TArray<int> DebugMyAss;
 
     UPROPERTY(meta = (BindWidget))
     class UCanvasPanel* RootCanvas;
