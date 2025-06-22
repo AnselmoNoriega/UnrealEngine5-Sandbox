@@ -25,6 +25,9 @@ protected:
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Settings")
     int32 MaxColumns = 5;
 
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Settings")
+    float BottomPadding = 10.0f;
+
     UPROPERTY(meta = (BindWidget))
     class UUniformGridPanel* MainGrid;
 
