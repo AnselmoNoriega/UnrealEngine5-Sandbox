@@ -64,9 +64,19 @@ void UCharacterSelectionWidgetBase::SynchronizeProperties()
 void UCharacterSelectionWidgetBase::SetFilters()
 {
     CharactersFilterWidget->ClearFilters();
+    int32 index = 0;
     for (auto& filter : Filters)
     {
         CharactersFilterWidget->AddFilter(filter.FilterIcon, filter.FilterName);
+        
+        ECharacterType newType = ECharacterType(index + 1);
+        CharactersFilterWidget->SetFunctionEventToFilter([this, newType]()
+            {
+                mCurrentLayer = newType;
+                SetCardsInDeck();
+            }, index);
+
+        ++index;
     }
 
     CharactersFilterWidget->InitFilterGroupLogic();
@@ -95,7 +105,7 @@ void UCharacterSelectionWidgetBase::SetCardsInDeck()
     GridHandlerWidget->ClearItems();
     for (auto& card : mCardsHolded)
     {
-        if (EnumHasAnyFlags(card->GetType(), mCurrentLayer))
+        if (mCurrentLayer == ECharacterType::ALL || card->GetType() == mCurrentLayer)
         {
             GridHandlerWidget->AddItem(card);
         }

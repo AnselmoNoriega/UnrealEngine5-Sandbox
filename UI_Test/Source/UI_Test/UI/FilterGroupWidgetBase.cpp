@@ -23,8 +23,11 @@ void UFilterGroupWidgetBase::InitFilterGroupLogic()
     for (UFilterWidgetBase* filter : mFilters)
     {
         filter->AddClickEvent([this, filter]() {
-            mSelectedFilter->SetButtonSelected(false);
-            mSelectedFilter = filter;
+            if (mSelectedFilter != filter)
+            {
+                mSelectedFilter->SetButtonSelected(false);
+                mSelectedFilter = filter;
+            }
             });
     }
 }
