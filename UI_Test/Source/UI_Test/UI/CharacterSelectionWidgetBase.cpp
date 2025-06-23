@@ -18,7 +18,7 @@ void UCharacterSelectionWidgetBase::NativeConstruct()
     SetCardsInDeck();
 
     if (ShowLockedCheckBox)
-    {
+    {// maybe put this on post edit too
         ShowLockedCheckBox->OnCheckStateChanged.AddDynamic(this, &UCharacterSelectionWidgetBase::LockedCheckBoxChange);
     }
 }
@@ -35,6 +35,7 @@ void UCharacterSelectionWidgetBase::PostEditChangeProperty(FPropertyChangedEvent
         return;
     }
 
+    /* Update or remake specific UI depending on which prperty changed */
     if (PropertyChangedEvent.Property->GetFName() == cardListPropertyName)
     {
         SetCardsInDeck();
@@ -49,11 +50,13 @@ void UCharacterSelectionWidgetBase::PostEditChangeProperty(FPropertyChangedEvent
     }
     else if (PropertyChangedEvent.Property->GetOwnerStruct() == FFilterWidgetData::StaticStruct())
     {
-        SetFilters();
+        SetFilters(); // Update not set and maybe make filter toggable in inspector
     }
 
     mShouldRebuildUI = false;
 
+    /* At the end because this runs SynchronizeProperties which I 
+       already did manually */
     Super::PostEditChangeProperty(PropertyChangedEvent);
 }
 #endif
@@ -62,6 +65,7 @@ void UCharacterSelectionWidgetBase::SynchronizeProperties()
 {
     Super::SynchronizeProperties();
 
+    /* Only update if saved, compile or none of the main UI properties got changed*/
     if (mShouldRebuildUI)
     {
         SetFilters();
@@ -72,6 +76,7 @@ void UCharacterSelectionWidgetBase::SynchronizeProperties()
 
 void UCharacterSelectionWidgetBase::SetFilters()
 {
+    /* Add the filters based on array of data */
     CharactersFilterWidget->ClearFilters();
     int32 index = 0;
     for (auto& filter : Filters)
@@ -98,10 +103,14 @@ void UCharacterSelectionWidgetBase::SetCardsInDeck()
         return;
     }
 
+    /* Clean Deck */
     GridHandlerWidget->SetMainLayer(CardsVerticalBox);
     GridHandlerWidget->ClearItems();
     mCardsHolded.Empty();
 
+    /* Create and add only needed widgets */
+    /* Note: I tried reusing them but I couldn't find a way to reparent without
+       crashing the game */
     mSelectedCard = nullptr;
     for (auto& item : CharacterCards)
     {
@@ -123,6 +132,8 @@ void UCharacterSelectionWidgetBase::SetCardsInDeck()
             item.isCardLocked
         );
 
+        /* Set events so only one card is active and you can't uncheck 
+           current selected card */
         newCard->AddClickEvent([this, newCard]() {
             if (newCard != mSelectedCard)
             {
@@ -131,7 +142,6 @@ void UCharacterSelectionWidgetBase::SetCardsInDeck()
                 mSelectedCard = newCard;
             }
             });
-
         newCard->AddStateChangeEvent([this, newCard](bool isChecked) {
             if (!isChecked && newCard == mSelectedCard)
             {
@@ -142,6 +152,7 @@ void UCharacterSelectionWidgetBase::SetCardsInDeck()
         mCardsHolded.Add(newCard);
         GridHandlerWidget->AddItem(newCard);
 
+        /* Set selected card if there's non selected */
         if (!mSelectedCard)
         {
             mSelectedCard = newCard;
@@ -153,7 +164,9 @@ void UCharacterSelectionWidgetBase::SetCardsInDeck()
 
 void UCharacterSelectionWidgetBase::UpdateCardsInfo()
 {
-    if (CharacterCards.Num() != mCardsHolded.Num())
+    /* Only Update Deck if theres more data to be changed (mCardsHolded) than 
+       data (CharacterCards) */
+    if (CharacterCards.Num() > mCardsHolded.Num())
     {
         return;
     }
@@ -172,6 +185,7 @@ void UCharacterSelectionWidgetBase::UpdateCardsInfo()
 
 void UCharacterSelectionWidgetBase::LockedCheckBoxChange(bool isChecked)
 {
+    /* Change filter and reset deck */
     mShowLockedItems = isChecked;
     SetCardsInDeck();
 }

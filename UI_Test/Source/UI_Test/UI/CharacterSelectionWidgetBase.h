@@ -5,7 +5,6 @@
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
 
-#include "UI_Test/Interfaces/SyncTargetInterface.h"
 #include "UI_Test/Enums/CharacterType.h"
 
 #include "CharacterSelectionWidgetBase.generated.h"

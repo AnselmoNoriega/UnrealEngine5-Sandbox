@@ -3,26 +3,9 @@
 
 #include "GridHandlerBase.h"
 
-#include "Components/CanvasPanel.h"
 #include "Components/VerticalBox.h"
-#include "Components/VerticalBoxSlot.h"
 #include "Components/HorizontalBox.h"
 #include "Components/HorizontalBoxSlot.h"
-
-#if WITH_EDITOR
-void UGridHandlerBase::PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent)
-{
-}
-#endif
-
-void UGridHandlerBase::SynchronizeProperties()
-{
-    Super::SynchronizeProperties();
-}
-
-void UGridHandlerBase::AddCards()
-{
-}
 
 void UGridHandlerBase::AddItem(UWidget* item)
 {
@@ -31,6 +14,8 @@ void UGridHandlerBase::AddItem(UWidget* item)
         return;
     }
 
+    /* Check if main widget has children and if they are UHorizontalBox type
+       else create one */
     UWidget* columnWidget = mMainLayer->GetChildAt(mMainLayer->GetChildrenCount() - 1);
     UHorizontalBox* columnBox = Cast<UHorizontalBox>(columnWidget);
     if (columnBox)
@@ -55,11 +40,11 @@ void UGridHandlerBase::ClearItems()
 {
     if (mMainLayer)
     {
-        for (auto* child : mMainLayer->GetAllChildren())
-        {
-            child->RemoveFromParent();
-        }
-
+        /* Remove and delete children 
+           (I tried keeping them alive and reparenting when needed
+            but that caused crashes because reparenting takes time to remove and add
+            and a widget can't be reparent if it has a parent already)
+            TODO: trying to improve this by fixing this limitation */
         mMainLayer->ClearChildren();
     }
 }

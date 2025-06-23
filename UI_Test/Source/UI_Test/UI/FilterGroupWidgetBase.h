@@ -25,16 +25,6 @@ public:
 	void AddFunctionEventToFilter(const std::function<void()>& clickEvent, int32 index);
 
 protected:
-#if WITH_EDITOR
-	void PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) override;
-#endif
-
-	void SynchronizeProperties() override;
-
-private:
-	//void GetPanels();
-
-protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Filters")
 	TSubclassOf<UFilterWidgetBase> FilterClass;
 

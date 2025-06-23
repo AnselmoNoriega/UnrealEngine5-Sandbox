@@ -4,15 +4,17 @@
 #include "CharacterCardWidgetBase.h"
 
 #include "Components/Image.h"
-#include "Components/CheckBox.h"
 #include "Components/TextBlock.h"
 
 void UCharacterCardWidgetBase::NativeConstruct()
 {
     Super::NativeConstruct();
 
-    Foreground->Brush.SetResourceObject(mIsLocked ? ForegroundLockedDefault : ForegroundDefault);
+    Foreground->SetBrushResourceObject(mIsLocked ? ForegroundLockedDefault : ForegroundDefault);
 
+    /* Change foreground when checked 
+       could also uncheck it but since events don't run when SetButtonSelected
+       is called i'll do that part manually */
     mClickEvents.Add([this]()
         {
             SetCardForegroundSelected();
@@ -27,7 +29,7 @@ void UCharacterCardWidgetBase::SetData(
     bool isLocked
 )
 {
-    CharacterIcon->Brush.SetResourceObject(characterImage);
+    CharacterIcon->SetBrushResourceObject(characterImage);
 
     CharacterName->SetText(characterName);
 
@@ -35,22 +37,16 @@ void UCharacterCardWidgetBase::SetData(
     CountTextBlock->SetText(FText::FromString(characterCountText));
 
     mCharacterType = type;
-    CharacterTypeIcon->Brush.SetResourceObject(TypeIcons[type]);
+    CharacterTypeIcon->SetBrushResourceObject(TypeIcons[type]);
 
     mIsLocked = isLocked;
-    Foreground->Brush.SetResourceObject(mIsLocked ? ForegroundLockedDefault : ForegroundDefault);
+    Foreground->SetBrushResourceObject(mIsLocked ? ForegroundLockedDefault : ForegroundDefault);
     SetRenderOpacity(isLocked ? OpacityForLockedItem : 1.0f);
-}
-
-void UCharacterCardWidgetBase::SetButtonSelected(bool selected)
-{
-    Super::SetButtonSelected(selected);
-
-    //SetCardForegroundSelected(selected);
 }
 
 void UCharacterCardWidgetBase::SetCardForegroundSelected(bool selected)
 {
+    /* Change foreground based on lock and selected state */
     UTexture2D* newForeground{};
     if (selected)
     {
@@ -61,10 +57,5 @@ void UCharacterCardWidgetBase::SetCardForegroundSelected(bool selected)
         newForeground = mIsLocked ? ForegroundLockedDefault : ForegroundDefault;
     }
 
-    Foreground->Brush.SetResourceObject(newForeground);
-}
-
-FText UCharacterCardWidgetBase::GetCharacterName()
-{
-    return CharacterName->GetText();
+    Foreground->SetBrushResourceObject(newForeground);
 }

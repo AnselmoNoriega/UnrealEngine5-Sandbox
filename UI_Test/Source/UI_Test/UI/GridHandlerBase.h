@@ -4,9 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
-
-#include "UI_Test/Interfaces/SyncTargetInterface.h"
-
 #include "GridHandlerBase.generated.h"
 
 /**
@@ -20,18 +17,11 @@ class UI_TEST_API UGridHandlerBase : public UUserWidget
 	GENERATED_BODY()
 
 public:
+    /* Set who the items parent is going to be */
     void SetMainLayer(UVerticalBox* layer) { mMainLayer = layer; }
 
-    void AddCards();
     void AddItem(UWidget* item);
     void ClearItems();
-
-protected:
-#if WITH_EDITOR
-    void PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) override;
-#endif
-
-    void SynchronizeProperties() override;
 
 protected:
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Settings")

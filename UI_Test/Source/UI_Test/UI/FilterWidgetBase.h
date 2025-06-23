@@ -9,8 +9,6 @@
 /**
  *
  */
-class UImage;
-
 UCLASS()
 class UI_TEST_API UFilterWidgetBase : public UCheckBoxHandlerWidgetBase
 {
@@ -21,7 +19,7 @@ public:
 
 protected:
     UPROPERTY(meta = (BindWidget))
-    UImage* Icon;
+    class UImage* Icon;
 
     UPROPERTY(meta = (BindWidget))
     class UTextBlock* FilterName;

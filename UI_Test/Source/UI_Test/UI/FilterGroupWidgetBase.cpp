@@ -5,10 +5,7 @@
 
 #include "FilterWidgetBase.h"
 
-#include "Components/GridSlot.h"
 #include "Components/VerticalBox.h"
-#include "Components/CheckBox.h"
-#include "Blueprint/WidgetTree.h"
 
 void UFilterGroupWidgetBase::InitFilterGroupLogic()
 {
@@ -17,9 +14,11 @@ void UFilterGroupWidgetBase::InitFilterGroupLogic()
         return;
     }
 
+    /* Set a selected filter and events so it can't be unselected
+       or change selection when otherone is pressed */
     mSelectedFilter = mFilters[0];
     mSelectedFilter->SetButtonSelected();
-
+    // document whats happening && check cpp then add anim or anim first
     for (UFilterWidgetBase* filter : mFilters)
     {
         filter->AddClickEvent([this, filter]() {
@@ -46,10 +45,12 @@ void UFilterGroupWidgetBase::AddFilter(UTexture2D* icon, const FText& lable)
         return;
     }
 
+    /* Create and add Filter to the vertical box */
     UFilterWidgetBase* filterWidget = CreateWidget<UFilterWidgetBase>(this, FilterClass);
     FiltersBox->AddChildToVerticalBox(filterWidget);
     mFilters.Add(filterWidget);
 
+    /* Set padding */
     FMargin padding = filterWidget->GetPadding();
     padding.Bottom = ItemsPadding;
     filterWidget->SetPadding(padding);
@@ -64,20 +65,9 @@ void UFilterGroupWidgetBase::ClearFilters()
         return;
     }
 
+    /* Clear children and references so it gets cleaned */
     FiltersBox->ClearChildren();
     mFilters.Empty();
-}
-
-#if WITH_EDITOR
-void UFilterGroupWidgetBase::PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent)
-{
-    Super::PostEditChangeProperty(PropertyChangedEvent);
-}
-#endif
-
-void UFilterGroupWidgetBase::SynchronizeProperties()
-{
-    Super::SynchronizeProperties();
 }
 
 void UFilterGroupWidgetBase::AddFunctionEventToFilter(const std::function<void()>& clickEvent, int32 index)
@@ -94,6 +84,7 @@ void UFilterGroupWidgetBase::AddFunctionEventToFilter(const std::function<void()
         return;
     }
 
+    /* Add Event after checking the Filter exists */
     UWidget* widget = FiltersBox->GetChildAt(index);
     if (UFilterWidgetBase* filter = Cast<UFilterWidgetBase>(widget))
     {
