@@ -18,7 +18,7 @@ public:
     void NativeConstruct() override;
 
     bool IsButtonSelected();
-    virtual void SetButtonSelected(bool selected = true);
+    void SetButtonSelected(bool selected = true);
 
     void AddClickEvent(const std::function<void()>& clickEvent) { mClickEvents.Add(clickEvent); };
     void RemoveClickEvent(int32 index) { mClickEvents.RemoveAt(index); };

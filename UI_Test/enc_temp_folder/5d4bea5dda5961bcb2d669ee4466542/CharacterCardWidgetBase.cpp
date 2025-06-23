@@ -6,25 +6,19 @@
 #include "Components/Image.h"
 #include "Components/TextBlock.h"
 
-#include "Components/CheckBox.h"
-
 void UCharacterCardWidgetBase::NativeConstruct()
 {
     Super::NativeConstruct();
+
+    Foreground->SetBrushResourceObject(mIsLocked ? ForegroundLockedDefault : ForegroundDefault);
 
     /* Change foreground when checked 
        could also uncheck it but since events don't run when SetButtonSelected
        is called i'll do that part manually */
     mClickEvents.Add([this]()
         {
-            Foreground->SetIsChecked(true);
+            SetCardForegroundSelected();
         });
-}
-
-void UCharacterCardWidgetBase::SetButtonSelected(bool selected)
-{
-    Super::SetButtonSelected(selected);
-    Foreground->SetIsChecked(selected);
 }
 
 void UCharacterCardWidgetBase::SetData(
@@ -46,21 +40,24 @@ void UCharacterCardWidgetBase::SetData(
     CharacterTypeIcon->SetBrushResourceObject(TypeIcons[type]);
 
     mIsLocked = isLocked;
+    Foreground->SetBrushResourceObject(mIsLocked ? ForegroundLockedDefault : ForegroundDefault);
     SetRenderOpacity(isLocked ? OpacityForLockedItem : 1.0f);
+}
 
-    /* Set brushes for selected and unselected image */
-    FSlateBrush defaultBrush;
-    defaultBrush.SetResourceObject(mIsLocked ? ForegroundLockedDefault : ForegroundDefault);
-    defaultBrush.ImageSize = FVector2D(ForegroundDefault->GetSizeX(), ForegroundDefault->GetSizeY());
-    FSlateBrush selectedBrush;
-    selectedBrush.SetResourceObject(mIsLocked ? ForegroundLockedSelected : ForegroundSelected);
-    selectedBrush.ImageSize = FVector2D(ForegroundDefault->GetSizeX(), ForegroundDefault->GetSizeY());
+void UCharacterCardWidgetBase::SetCardForegroundSelected(bool selected)
+{
+    /* Change foreground based on lock and selected state */
+    UTexture2D* newForeground{};
+    if (selected)
+    {
+        newForeground = mIsLocked ? ForegroundLockedSelected : ForegroundSelected;
+    }
+    else
+    {
+        newForeground = mIsLocked ? ForegroundLockedDefault : ForegroundDefault;
+    }
 
-    FCheckBoxStyle style;
-    style.SetCheckedImage(selectedBrush);
-    style.SetUncheckedImage(defaultBrush);
-
-    Foreground->SetWidgetStyle(style);
+    Foreground->SetBrushResourceObject(newForeground);
 }
 
 FText UCharacterCardWidgetBase::GetCharacterName()

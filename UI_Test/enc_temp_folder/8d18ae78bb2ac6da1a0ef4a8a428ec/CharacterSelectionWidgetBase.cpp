@@ -158,6 +158,7 @@ void UCharacterSelectionWidgetBase::CreateDeck()
         {
             mSelectedCard = newCard;
             mSelectedCard->SetButtonSelected();
+            mSelectedCard->SetCardForegroundSelected();
         }
 
         /* Set events so only one card is active and you can't uncheck 
@@ -165,9 +166,7 @@ void UCharacterSelectionWidgetBase::CreateDeck()
         newCard->AddClickEvent([this, newCard]() {
             if (newCard != mSelectedCard)
             {
-                mSelectedCard->SetButtonSelected(false);
-                mSelectedCard = newCard;
-                mSelectedCardName = newCard->GetCharacterName();
+                SetNewCardSelected(newCard);
             }
             });
         newCard->AddStateChangeEvent([this, newCard](bool isChecked) {
@@ -186,6 +185,7 @@ void UCharacterSelectionWidgetBase::CreateDeck()
     {
         mSelectedCard = mCardsHolded[0];
         mSelectedCard->SetButtonSelected();
+        mSelectedCard->SetCardForegroundSelected();
         mSelectedCardName = mCardsHolded[0]->GetCharacterName();
     }
 }
@@ -216,4 +216,12 @@ void UCharacterSelectionWidgetBase::LockedCheckBoxChange(bool isChecked)
     /* Change filter and reset deck */
     mShowLockedItems = isChecked;
     CreateDeck();
+}
+
+void UCharacterSelectionWidgetBase::SetNewCardSelected(UCharacterCardWidgetBase* newCard)
+{
+    mSelectedCard->SetButtonSelected(false);
+    mSelectedCard->SetCardForegroundSelected(false);
+    mSelectedCard = newCard;
+    mSelectedCardName = newCard->GetCharacterName();
 }

@@ -69,6 +69,8 @@ private:
 	void CreateDeck();
 	void UpdateCardsInfo();
 
+    void SetNewCardSelected(UCharacterCardWidgetBase* newCard);
+
     UFUNCTION()
     void LockedCheckBoxChange(bool isChecked);
 

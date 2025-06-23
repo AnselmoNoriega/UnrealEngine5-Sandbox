@@ -17,10 +17,12 @@ class UI_TEST_API UFilterGroupWidgetBase : public UUserWidget
 	GENERATED_BODY()
 
 public:
-	void InitFilterGroupLogic();
+	void InitFilterGroupLogic(int32 setSelectedIndex = 0);
 
 	void AddFilter(UTexture2D* icon, const FText& lable);
 	void ClearFilters();
+
+	void UpdateFilter(UTexture2D* icon, const FText& lable, int index);
 
 	void AddFunctionEventToFilter(const std::function<void()>& clickEvent, int32 index);
 

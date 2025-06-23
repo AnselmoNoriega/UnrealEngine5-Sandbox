@@ -7,7 +7,7 @@
 
 #include "Components/VerticalBox.h"
 
-void UFilterGroupWidgetBase::InitFilterGroupLogic()
+void UFilterGroupWidgetBase::InitFilterGroupLogic(int32 setSelectedIndex)
 {
     if (mFilters.IsEmpty())
     {
@@ -16,7 +16,7 @@ void UFilterGroupWidgetBase::InitFilterGroupLogic()
 
     /* Set a selected filter and events so it can't be unselected
        or change selection when otherone is pressed */
-    mSelectedFilter = mFilters[0];
+    mSelectedFilter = mFilters[setSelectedIndex];
     mSelectedFilter->SetButtonSelected();
     // document whats happening && check cpp then add anim or anim first
     for (UFilterWidgetBase* filter : mFilters)
@@ -70,28 +70,24 @@ void UFilterGroupWidgetBase::ClearFilters()
     mFilters.Empty();
 }
 
-void UFilterGroupWidgetBase::AddFunctionEventToFilter(const std::function<void()>& clickEvent, int32 index)
+void UFilterGroupWidgetBase::UpdateFilter(UTexture2D* icon, const FText& lable, int index)
 {
-    if (!FiltersBox)
-    {
-        UE_LOG(LogTemp, Warning, TEXT("FiltersBox not found in FilterGroup!"));
-        return;
-    }
-
-    if (FiltersBox->GetChildrenCount() <= index)
+    if (mFilters.Num() <= index)
     {
         UE_LOG(LogTemp, Warning, TEXT("Requested filter index %d is out of range. Total filters: %d"), index, FiltersBox->GetChildrenCount());
         return;
     }
 
-    /* Add Event after checking the Filter exists */
-    UWidget* widget = FiltersBox->GetChildAt(index);
-    if (UFilterWidgetBase* filter = Cast<UFilterWidgetBase>(widget))
+    mFilters[index]->SetData(icon, lable);
+}
+
+void UFilterGroupWidgetBase::AddFunctionEventToFilter(const std::function<void()>& clickEvent, int32 index)
+{
+    if (mFilters.Num() <= index)
     {
-        filter->AddClickEvent(clickEvent);
+        UE_LOG(LogTemp, Warning, TEXT("Requested filter index %d is out of range. Total filters: %d"), index, FiltersBox->GetChildrenCount());
+        return;
     }
-    else
-    {
-        UE_LOG(LogTemp, Warning, TEXT("You shouldn't have items that are not relative to FilterWidgetBase inside FiltersBox!"));
-    }
+
+    mFilters[index]->AddClickEvent(clickEvent);
 }

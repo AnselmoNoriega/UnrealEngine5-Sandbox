@@ -35,8 +35,6 @@ class UI_TEST_API UCharacterCardWidgetBase : public UCheckBoxHandlerWidgetBase
 public:
     void NativeConstruct() override;
 
-    void SetButtonSelected(bool selected = true) override;
-
     void SetData(
         UTexture2D* characterImage,
         const FText& characterName, 
@@ -44,6 +42,8 @@ public:
         ECharacterType type,
         bool isLocked = false
     );
+
+    void SetCardForegroundSelected(bool selected = true);
 
     FText GetCharacterName();
     ECharacterType GetType() { return mCharacterType; }
@@ -60,7 +60,7 @@ protected:
     UImage* CharacterIcon;
 
     UPROPERTY(meta = (BindWidget))
-    class UCheckBox* Foreground;
+    UImage* Foreground;
 
     UPROPERTY(meta = (BindWidget))
     UImage* CharacterTypeIcon;
