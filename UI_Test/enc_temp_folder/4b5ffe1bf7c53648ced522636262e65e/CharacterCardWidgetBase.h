@@ -46,7 +46,6 @@ public:
     void SetButtonSelected(bool selected = true) override;
     void SetCardForegroundSelected(bool selected = true);
 
-    FText GetCharacterName();
     ECharacterType GetType() { return mCharacterType; }
     bool IsLocked() { return mIsLocked; }
 

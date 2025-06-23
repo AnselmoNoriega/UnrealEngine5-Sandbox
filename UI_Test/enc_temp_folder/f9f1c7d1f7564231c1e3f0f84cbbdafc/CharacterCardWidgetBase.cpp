@@ -63,8 +63,3 @@ void UCharacterCardWidgetBase::SetCardForegroundSelected(bool selected)
 
     Foreground->Brush.SetResourceObject(newForeground);
 }
-
-FText UCharacterCardWidgetBase::GetCharacterName()
-{
-    return CharacterName->GetText();
-}

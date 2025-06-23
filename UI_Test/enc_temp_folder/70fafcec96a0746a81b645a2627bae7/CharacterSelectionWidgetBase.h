@@ -66,7 +66,8 @@ protected:
 private:
 	void SetFilters();
 	void SetCardsInDeck();
-	void UpdateCardsInfo();
+
+    void OrderDeck();
 
     UFUNCTION()
     void LockedCheckBoxChange(bool isChecked);

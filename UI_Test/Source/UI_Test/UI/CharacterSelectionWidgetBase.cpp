@@ -41,12 +41,7 @@ void UCharacterSelectionWidgetBase::PostEditChangeProperty(FPropertyChangedEvent
     }
     else if (PropertyChangedEvent.Property->GetOwnerStruct() == FCharacterCardInfo::StaticStruct())
     {
-        const FProperty* inProperty = PropertyChangedEvent.Property->PropertyLinkNext;
-
-        if (inProperty && inProperty->GetFName() == GET_MEMBER_NAME_CHECKED(UCharacterSelectionWidgetBase, CharacterCards))
-        {
-            //UpdateCard(inProperty->);
-        }
+        UpdateCardsInfo();
     }
     else if (PropertyChangedEvent.Property->GetFName() == filtersPropertyName)
     {
@@ -98,9 +93,27 @@ void UCharacterSelectionWidgetBase::SetFilters()
 
 void UCharacterSelectionWidgetBase::SetCardsInDeck()
 {
+    if (!GridHandlerWidget)
+    {
+        return;
+    }
+
+    GridHandlerWidget->SetMainLayer(CardsVerticalBox);
+    GridHandlerWidget->ClearItems();
     mCardsHolded.Empty();
+
+    mSelectedCard = nullptr;
     for (auto& item : CharacterCards)
     {
+        if (mCurrentLayer != ECharacterType::ALL && item.Type != mCurrentLayer)
+        {
+            continue;
+        }
+        else if (!mShowLockedItems && item.isCardLocked)
+        {
+            continue;
+        }
+
         UCharacterCardWidgetBase* newCard = CreateWidget<UCharacterCardWidgetBase>(this, CardClass.Get());
         newCard->SetData(
             item.CharacterImage,
@@ -125,41 +138,35 @@ void UCharacterSelectionWidgetBase::SetCardsInDeck()
                 mSelectedCard->SetButtonSelected();
             }
             });
-        mCardsHolded.Add(newCard);
-    }
 
-    OrderDeck();
+        mCardsHolded.Add(newCard);
+        GridHandlerWidget->AddItem(newCard);
+
+        if (!mSelectedCard)
+        {
+            mSelectedCard = newCard;
+            mSelectedCard->SetButtonSelected();
+            mSelectedCard->SetCardForegroundSelected();
+        }
+    }
 }
 
-void UCharacterSelectionWidgetBase::OrderDeck()
+void UCharacterSelectionWidgetBase::UpdateCardsInfo()
 {
-    if (!GridHandlerWidget)
+    if (CharacterCards.Num() != mCardsHolded.Num())
     {
         return;
     }
 
-    GridHandlerWidget->SetMainLayer(CardsVerticalBox);
-    GridHandlerWidget->ClearItems();
-
-    mSelectedCard = nullptr;
-    for (auto* card : mCardsHolded)
+    for (int i = 0; i < CharacterCards.Num(); ++i)
     {
-        if (!mShowLockedItems && card->IsLocked())
-        {
-            continue;
-        }
-
-        if (mCurrentLayer == ECharacterType::ALL || card->GetType() == mCurrentLayer)
-        {
-            GridHandlerWidget->AddItem(card);
-
-            if (!mSelectedCard)
-            {
-                mSelectedCard = card;
-                mSelectedCard->SetButtonSelected();
-                mSelectedCard->SetCardForegroundSelected();
-            }
-        }
+        mCardsHolded[i]->SetData(
+            CharacterCards[i].CharacterImage,
+            CharacterCards[i].CharacterName,
+            CharacterCards[i].CharacterCount,
+            CharacterCards[i].Type,
+            CharacterCards[i].isCardLocked
+        );
     }
 }
 
