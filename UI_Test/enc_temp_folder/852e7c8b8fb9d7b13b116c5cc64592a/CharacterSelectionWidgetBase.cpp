@@ -95,14 +95,13 @@ void UCharacterSelectionWidgetBase::SetCardsInDeck()
             if (newCard != mSelectedCard)
             {
                 mSelectedCard->SetButtonSelected(false);
-                mSelectedCard->SetCardForegroundSelected(false);
                 mSelectedCard = newCard;
             }
             });
 
         newCard->AddStateChangeEvent([this, newCard](bool isChecked) {
             if (!isChecked && newCard == mSelectedCard)
-            {
+            {// maybe because is in change event it doesnt run the function again
                 mSelectedCard->SetButtonSelected();
             }
             });
@@ -133,7 +132,6 @@ void UCharacterSelectionWidgetBase::SetCardsInDeck()
     {
         mSelectedCard = mCardsHolded[0];
         mSelectedCard->SetButtonSelected();
-        mSelectedCard->SetCardForegroundSelected();
     }
 }
 

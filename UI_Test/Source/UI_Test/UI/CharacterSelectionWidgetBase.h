@@ -93,6 +93,7 @@ private:
     TArray<UCharacterCardWidgetBase*> mCardsHolded;
 
     ECharacterType mCurrentLayer = ECharacterType::ALL;
+    UCharacterCardWidgetBase* mSelectedCard{};
 
     bool mShowLockedItems = true;
 };

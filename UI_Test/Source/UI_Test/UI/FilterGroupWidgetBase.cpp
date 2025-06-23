@@ -80,7 +80,7 @@ void UFilterGroupWidgetBase::SynchronizeProperties()
     Super::SynchronizeProperties();
 }
 
-void UFilterGroupWidgetBase::SetFunctionEventToFilter(const std::function<void()>& clickEvent, int32 index)
+void UFilterGroupWidgetBase::AddFunctionEventToFilter(const std::function<void()>& clickEvent, int32 index)
 {
     if (!FiltersBox)
     {

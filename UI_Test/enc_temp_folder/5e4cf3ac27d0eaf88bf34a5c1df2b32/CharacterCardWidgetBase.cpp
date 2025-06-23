@@ -13,9 +13,19 @@ void UCharacterCardWidgetBase::NativeConstruct()
 
     Foreground->Brush.SetResourceObject(mIsLocked ? ForegroundLockedDefault : ForegroundDefault);
 
-    mClickEvents.Add([this]()
+    mStateChangeEvents.Add([this](bool isChecked)
         {
-            SetCardForegroundSelected();
+            UTexture2D* newForeground{};
+            if (isChecked)
+            {
+                newForeground = mIsLocked ? ForegroundLockedSelected : ForegroundSelected;
+            }
+            else
+            {
+                newForeground = mIsLocked ? ForegroundLockedDefault : ForegroundDefault;
+            }
+
+            Foreground->Brush.SetResourceObject(newForeground);
         });
 }
 
@@ -40,26 +50,4 @@ void UCharacterCardWidgetBase::SetData(
     mIsLocked = isLocked;
     Foreground->Brush.SetResourceObject(mIsLocked ? ForegroundLockedDefault : ForegroundDefault);
     SetRenderOpacity(isLocked ? OpacityForLockedItem : 1.0f);
-}
-
-void UCharacterCardWidgetBase::SetButtonSelected(bool selected)
-{
-    Super::SetButtonSelected(selected);
-
-    //SetCardForegroundSelected(selected);
-}
-
-void UCharacterCardWidgetBase::SetCardForegroundSelected(bool selected)
-{
-    UTexture2D* newForeground{};
-    if (selected)
-    {
-        newForeground = mIsLocked ? ForegroundLockedSelected : ForegroundSelected;
-    }
-    else
-    {
-        newForeground = mIsLocked ? ForegroundLockedDefault : ForegroundDefault;
-    }
-
-    Foreground->Brush.SetResourceObject(newForeground);
 }

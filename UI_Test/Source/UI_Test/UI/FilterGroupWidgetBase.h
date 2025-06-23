@@ -22,7 +22,7 @@ public:
 	void AddFilter(UTexture2D* icon, const FText& lable);
 	void ClearFilters();
 
-	void SetFunctionEventToFilter(const std::function<void()>& clickEvent, int32 index);
+	void AddFunctionEventToFilter(const std::function<void()>& clickEvent, int32 index);
 
 protected:
 #if WITH_EDITOR
