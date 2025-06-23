@@ -47,7 +47,7 @@ void UGridHandlerBase::AddItem(UWidget* item)
         mMainLayer->AddChildToVerticalBox(columnBox);
     }
 
-    UHorizontalBoxSlot* hSlot = Cast<UHorizontalBoxSlot>(columnBox->AddChildToHorizontalBox(item));
+    UHorizontalBoxSlot* hSlot = columnBox->AddChildToHorizontalBox(item);
     hSlot->SetPadding(ItemPadding);
 }
 
@@ -55,6 +55,11 @@ void UGridHandlerBase::ClearItems()
 {
     if (mMainLayer)
     {
+        for (auto* child : mMainLayer->GetAllChildren())
+        {
+            child->RemoveFromParent();
+        }
+
         mMainLayer->ClearChildren();
     }
 }

@@ -24,9 +24,6 @@ struct FCharacterCardInfo
     UTexture2D* CharacterImage;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character")
-    FText CharacterName{};
-
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character")
     int32 CharacterCount{};
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character")
@@ -34,6 +31,9 @@ struct FCharacterCardInfo
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character")
     bool isCardLocked = false;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Character")
+    FText CharacterName{};
 };
 
 USTRUCT(BlueprintType)
@@ -101,4 +101,6 @@ private:
     UCharacterCardWidgetBase* mSelectedCard{};
 
     bool mShowLockedItems = true;
+
+    bool mShouldRebuildUI = true;
 };

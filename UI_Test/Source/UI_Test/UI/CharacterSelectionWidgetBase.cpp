@@ -26,13 +26,12 @@ void UCharacterSelectionWidgetBase::NativeConstruct()
 #if WITH_EDITOR
 void UCharacterSelectionWidgetBase::PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent)
 {
-    Super::PostEditChangeProperty(PropertyChangedEvent);
-
     static const FName cardListPropertyName = GET_MEMBER_NAME_CHECKED(UCharacterSelectionWidgetBase, CharacterCards);
     static const FName filtersPropertyName = GET_MEMBER_NAME_CHECKED(UCharacterSelectionWidgetBase, Filters);
 
     if (!PropertyChangedEvent.Property)
     {
+        Super::PostEditChangeProperty(PropertyChangedEvent);
         return;
     }
 
@@ -57,6 +56,10 @@ void UCharacterSelectionWidgetBase::PostEditChangeProperty(FPropertyChangedEvent
     {
         SetFilters();
     }
+
+    mShouldRebuildUI = false;
+
+    Super::PostEditChangeProperty(PropertyChangedEvent);
 }
 #endif
 
@@ -64,8 +67,12 @@ void UCharacterSelectionWidgetBase::SynchronizeProperties()
 {
     Super::SynchronizeProperties();
 
-    SetFilters();
-    SetCardsInDeck();
+    if (mShouldRebuildUI)
+    {
+        SetFilters();
+        SetCardsInDeck();
+    }
+    mShouldRebuildUI = true;
 }
 
 void UCharacterSelectionWidgetBase::SetFilters()
@@ -80,7 +87,7 @@ void UCharacterSelectionWidgetBase::SetFilters()
         CharactersFilterWidget->AddFunctionEventToFilter([this, newType]()
             {
                 mCurrentLayer = newType;
-                OrderDeck();
+                SetCardsInDeck();
             }, index);
 
         ++index;
@@ -122,13 +129,6 @@ void UCharacterSelectionWidgetBase::SetCardsInDeck()
     }
 
     OrderDeck();
-
-    if (!mCardsHolded.IsEmpty())
-    {
-        mSelectedCard = mCardsHolded[0];
-        mSelectedCard->SetButtonSelected();
-        mSelectedCard->SetCardForegroundSelected();
-    }
 }
 
 void UCharacterSelectionWidgetBase::OrderDeck()
@@ -138,8 +138,10 @@ void UCharacterSelectionWidgetBase::OrderDeck()
         return;
     }
 
-    GridHandlerWidget->ClearItems();
     GridHandlerWidget->SetMainLayer(CardsVerticalBox);
+    GridHandlerWidget->ClearItems();
+
+    mSelectedCard = nullptr;
     for (auto* card : mCardsHolded)
     {
         if (!mShowLockedItems && card->IsLocked())
@@ -150,6 +152,13 @@ void UCharacterSelectionWidgetBase::OrderDeck()
         if (mCurrentLayer == ECharacterType::ALL || card->GetType() == mCurrentLayer)
         {
             GridHandlerWidget->AddItem(card);
+
+            if (!mSelectedCard)
+            {
+                mSelectedCard = card;
+                mSelectedCard->SetButtonSelected();
+                mSelectedCard->SetCardForegroundSelected();
+            }
         }
     }
 }
