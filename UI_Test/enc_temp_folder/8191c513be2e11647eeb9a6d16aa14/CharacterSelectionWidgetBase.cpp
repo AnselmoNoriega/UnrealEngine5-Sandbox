@@ -42,12 +42,7 @@ void UCharacterSelectionWidgetBase::PostEditChangeProperty(FPropertyChangedEvent
     }
     else if (PropertyChangedEvent.Property->GetOwnerStruct() == FCharacterCardInfo::StaticStruct())
     {
-        const FProperty* inProperty = PropertyChangedEvent.Property->PropertyLinkNext;
-
-        if (inProperty && inProperty->GetFName() == GET_MEMBER_NAME_CHECKED(UCharacterSelectionWidgetBase, CharacterCards))
-        {
-            //UpdateCard(inProperty->);
-        }
+        SetCardsInDeck();
     }
     else if (PropertyChangedEvent.Property->GetFName() == filtersPropertyName)
     {

@@ -67,6 +67,8 @@ private:
 	void SetFilters();
 	void SetCardsInDeck();
 
+    void OrderDeck();
+
     UFUNCTION()
     void LockedCheckBoxChange(bool isChecked);
 
