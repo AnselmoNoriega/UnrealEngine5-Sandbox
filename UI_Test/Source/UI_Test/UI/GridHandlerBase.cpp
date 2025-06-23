@@ -18,11 +18,6 @@ void UGridHandlerBase::PostEditChangeProperty(FPropertyChangedEvent& PropertyCha
 void UGridHandlerBase::SynchronizeProperties()
 {
     Super::SynchronizeProperties();
-
-    if (SyncTarget)
-    {
-        SyncTarget->Execute_SyncData(SyncTarget.GetObject());
-    }
 }
 
 void UGridHandlerBase::AddCards()
@@ -31,25 +26,25 @@ void UGridHandlerBase::AddCards()
 
 void UGridHandlerBase::AddItem(UWidget* item)
 {
-    if (!MainLayer)
+    if (!mMainLayer)
     {
         return;
     }
 
-    UWidget* columnWidget = MainLayer->GetChildAt(MainLayer->GetChildrenCount() - 1);
+    UWidget* columnWidget = mMainLayer->GetChildAt(mMainLayer->GetChildrenCount() - 1);
     UHorizontalBox* columnBox = Cast<UHorizontalBox>(columnWidget);
     if (columnBox)
     {
         if (columnBox->GetChildrenCount() >= MaxColumns)
         {
             columnBox = NewObject<UHorizontalBox>(this);
-            MainLayer->AddChildToVerticalBox(columnBox);
+            mMainLayer->AddChildToVerticalBox(columnBox);
         }
     }
     else
     {
         columnBox = NewObject<UHorizontalBox>(this);
-        MainLayer->AddChildToVerticalBox(columnBox);
+        mMainLayer->AddChildToVerticalBox(columnBox);
     }
 
     UHorizontalBoxSlot* hSlot = Cast<UHorizontalBoxSlot>(columnBox->AddChildToHorizontalBox(item));
@@ -58,25 +53,8 @@ void UGridHandlerBase::AddItem(UWidget* item)
 
 void UGridHandlerBase::ClearItems()
 {
-    if (MainLayer)
+    if (mMainLayer)
     {
-        MainLayer->ClearChildren();
+        mMainLayer->ClearChildren();
     }
-}
-
-void UGridHandlerBase::AddItemFromEditor()
-{
-    if (!TestItem)
-    {
-        UE_LOG(LogTemp, Warning, TEXT("TestItem is null."));
-        return;
-    }
-
-    auto t = CreateWidget<>(this, TestItem.Get());
-    AddItem(t);
-}
-
-void UGridHandlerBase::ClearItemFromEditor()
-{
-    ClearItems();
 }

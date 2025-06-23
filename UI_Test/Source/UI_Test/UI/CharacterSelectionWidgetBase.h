@@ -80,6 +80,9 @@ protected:
     UPROPERTY(meta = (BindWidget))
     class UCheckBox* ShowLockedCheckBox;
 
+    UPROPERTY(meta = (BindWidget))
+    class UVerticalBox* CardsVerticalBox;
+
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Values")
     TArray<FCharacterCardInfo> CharacterCards;
 

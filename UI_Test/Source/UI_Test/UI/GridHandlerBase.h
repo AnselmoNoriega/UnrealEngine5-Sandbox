@@ -12,23 +12,15 @@
 /**
  * 
  */
+class UVerticalBox;
+
 UCLASS()
 class UI_TEST_API UGridHandlerBase : public UUserWidget
 {
 	GENERATED_BODY()
 
 public:
-    UFUNCTION(CallInEditor, Category = "Test")
-    void AddItemFromEditor();
-    UFUNCTION(CallInEditor, Category = "Test")
-    void ClearItemFromEditor();
-    UPROPERTY(EditAnywhere, Category = "Test")
-    TSubclassOf<UWidget> TestItem;
-
-    void SetSyncTargetReference(TScriptInterface<ISyncTargetInterface>& target)
-    {
-        SyncTarget = target;
-    }
+    void SetMainLayer(UVerticalBox* layer) { mMainLayer = layer; }
 
     void AddCards();
     void AddItem(UWidget* item);
@@ -48,9 +40,6 @@ protected:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Settings")
     FMargin ItemPadding;
 
-    UPROPERTY(meta = (BindWidget))
-    class UVerticalBox* MainLayer;
-
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Sync")
-    TScriptInterface<ISyncTargetInterface> SyncTarget;
+private:
+    UVerticalBox* mMainLayer;
 };

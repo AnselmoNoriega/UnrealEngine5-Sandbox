@@ -7,6 +7,7 @@
 #include "GridHandlerBase.h"
 #include "CharacterCardWidgetBase.h"
 
+#include "Components/VerticalBox.h"
 #include "Components/CheckBox.h"
 
 void UCharacterSelectionWidgetBase::NativeConstruct()
@@ -106,8 +107,8 @@ void UCharacterSelectionWidgetBase::SetCardsInDeck()
                 mSelectedCard->SetButtonSelected();
             }
             });
-
         mCardsHolded.Add(newCard);
+        //CardsVerticalBox->AddChild(newCard);
     }
 
     if (!GridHandlerWidget)
@@ -116,6 +117,7 @@ void UCharacterSelectionWidgetBase::SetCardsInDeck()
     }
 
     GridHandlerWidget->ClearItems();
+    GridHandlerWidget->SetMainLayer(CardsVerticalBox);
     for (auto* card : mCardsHolded)
     {
         if (!mShowLockedItems && card->IsLocked())
