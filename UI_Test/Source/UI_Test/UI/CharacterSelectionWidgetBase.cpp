@@ -238,5 +238,5 @@ void UCharacterSelectionWidgetBase::EnableCardScreen(bool active)
 
 void UCharacterSelectionWidgetBase::OnCloseScreenFinished()
 {
-
+    SetVisibility(ESlateVisibility::Hidden);
 }

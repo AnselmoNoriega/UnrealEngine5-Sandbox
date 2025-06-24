@@ -6,6 +6,8 @@
 #include "GameFramework/Actor.h"
 #include "TestHelperBase.generated.h"
 
+struct FInputActionValue;
+
 class UCharacterSelectionWidgetBase;
 
 UCLASS()
@@ -21,14 +23,23 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+private:
+	void TogglCardScreen(const FInputActionValue& Value);
 
 protected:
+	// For the screen =========
     UPROPERTY(EditDefaultsOnly, Category = "UI")
     TSubclassOf<UCharacterSelectionWidgetBase> CharacterSelectClass;
 
+	// For the inputs =========
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input")
+	class UInputMappingContext* InputMappingContext;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input")
+	class UInputAction* ToggleCardsMenu;
+
 private:
 	UCharacterSelectionWidgetBase* mCharacterSelectWidget;
+
+	bool mIsMenuActive = false;
 };
