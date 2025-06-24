@@ -29,7 +29,7 @@ void UCharacterSelectionWidgetBase::PostEditChangeProperty(FPropertyChangedEvent
 {
     static const FName cardListPropertyName = GET_MEMBER_NAME_CHECKED(UCharacterSelectionWidgetBase, CharacterCards);
     static const FName filtersPropertyName = GET_MEMBER_NAME_CHECKED(UCharacterSelectionWidgetBase, Filters);
-    
+
     static const FName selectedFilterPropertyName = GET_MEMBER_NAME_CHECKED(UCharacterSelectionWidgetBase, SelectedFilter);
 
     if (!PropertyChangedEvent.Property)
@@ -66,7 +66,7 @@ void UCharacterSelectionWidgetBase::PostEditChangeProperty(FPropertyChangedEvent
         mShouldRebuildUI = false;
     }
 
-    /* At the end because this runs SynchronizeProperties which I 
+    /* At the end because this runs SynchronizeProperties which I
        already did manually */
     Super::PostEditChangeProperty(PropertyChangedEvent);
 }
@@ -99,6 +99,7 @@ void UCharacterSelectionWidgetBase::SetFilters()
             {
                 SelectedFilter = newType;
                 CreateDeck();
+                PlayAnimation(ChangeFilter);
             }, index);
 
         ++index;
@@ -160,7 +161,7 @@ void UCharacterSelectionWidgetBase::CreateDeck()
             mSelectedCard->SetButtonSelected();
         }
 
-        /* Set events so only one card is active and you can't uncheck 
+        /* Set events so only one card is active and you can't uncheck
            current selected card */
         newCard->AddClickEvent([this, newCard]() {
             if (newCard != mSelectedCard)
@@ -192,7 +193,7 @@ void UCharacterSelectionWidgetBase::CreateDeck()
 
 void UCharacterSelectionWidgetBase::UpdateCardsInfo()
 {
-    /* Only Update Deck if theres more data to be changed (mCardsHolded) than 
+    /* Only Update Deck if theres more data to be changed (mCardsHolded) than
        data (CharacterCards) */
     if (CharacterCards.Num() > mCardsHolded.Num())
     {
@@ -216,4 +217,26 @@ void UCharacterSelectionWidgetBase::LockedCheckBoxChange(bool isChecked)
     /* Change filter and reset deck */
     mShowLockedItems = isChecked;
     CreateDeck();
+}
+
+void UCharacterSelectionWidgetBase::EnableCardScreen(bool active)
+{
+    if (active)
+    {
+        SetVisibility(ESlateVisibility::Visible);
+        PlayAnimation(OpenMenu);
+    }
+    else
+    {
+        FWidgetAnimationDynamicEvent widgetAnimEvent;
+        widgetAnimEvent.BindUFunction(this, "OnCloseScreenFinished");
+
+        BindToAnimationFinished(CloseMenu, widgetAnimEvent);
+        PlayAnimation(CloseMenu);
+    }
+}
+
+void UCharacterSelectionWidgetBase::OnCloseScreenFinished()
+{
+
 }

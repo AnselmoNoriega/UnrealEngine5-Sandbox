@@ -6,6 +6,8 @@
 #include "GameFramework/Actor.h"
 #include "TestHelperBase.generated.h"
 
+class UCharacterSelectionWidgetBase;
+
 UCLASS()
 class UI_TEST_API ATestHelperBase : public AActor
 {
@@ -25,8 +27,8 @@ public:
 
 protected:
     UPROPERTY(EditDefaultsOnly, Category = "UI")
-    TSubclassOf<class UUserWidget> CharacterSelectClass;
+    TSubclassOf<UCharacterSelectionWidgetBase> CharacterSelectClass;
 
 private:
-	UUserWidget* mCharacterSelectWidget;
+	UCharacterSelectionWidgetBase* mCharacterSelectWidget;
 };

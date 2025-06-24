@@ -55,6 +55,9 @@ class UI_TEST_API UCharacterSelectionWidgetBase : public UUserWidget
 public:
 	void NativeConstruct() override;
 
+    /* Opens or closes the Cards Settings' screen */
+    void EnableCardScreen(bool active = true);
+
 protected:
 #if WITH_EDITOR
 	void PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) override;
@@ -71,6 +74,8 @@ private:
 
     UFUNCTION()
     void LockedCheckBoxChange(bool isChecked);
+    UFUNCTION()
+    void OnCloseScreenFinished();
 
 protected:
 	UPROPERTY(meta = (BindWidget))
@@ -84,6 +89,15 @@ protected:
 
     UPROPERTY(meta = (BindWidget))
     class UVerticalBox* CardsVerticalBox;
+
+    UPROPERTY(meta = (BindWidgetAnim), Transient)
+    UWidgetAnimation* OpenMenu;
+
+    UPROPERTY(meta = (BindWidgetAnim), Transient)
+    UWidgetAnimation* CloseMenu;
+
+    UPROPERTY(meta = (BindWidgetAnim), Transient)
+    UWidgetAnimation* ChangeFilter;
 
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Values")
     TArray<FCharacterCardInfo> CharacterCards;

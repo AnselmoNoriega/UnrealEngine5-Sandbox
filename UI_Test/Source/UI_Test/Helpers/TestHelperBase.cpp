@@ -3,7 +3,7 @@
 
 #include "TestHelperBase.h"
 
-#include "Blueprint/UserWidget.h"
+#include "UI_Test/UI/CharacterSelectionWidgetBase.h"
 
 // Sets default values
 ATestHelperBase::ATestHelperBase()
@@ -22,9 +22,10 @@ void ATestHelperBase::BeginPlay()
 	pc->SetInputMode(FInputModeUIOnly());
 	pc->bShowMouseCursor = true;
 
-	mCharacterSelectWidget = CreateWidget<UUserWidget>(pc, CharacterSelectClass);
-
+	mCharacterSelectWidget = CreateWidget<UCharacterSelectionWidgetBase>(pc, CharacterSelectClass);
 	mCharacterSelectWidget->AddToViewport();
+
+	mCharacterSelectWidget->EnableCardScreen(true);
 }
 
 // Called every frame
