@@ -20,6 +20,7 @@ public:
 	void InitFilterGroupLogic(int32 setSelectedIndex = 0);
 
 	void AddFilter(UTexture2D* icon, const FText& lable);
+	UUserWidget* GetFirstSelectedFilter();
 	void ClearFilters();
 
 	void UpdateFilter(UTexture2D* icon, const FText& lable, int index);

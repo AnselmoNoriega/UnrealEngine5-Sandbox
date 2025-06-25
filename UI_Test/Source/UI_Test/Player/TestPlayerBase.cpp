@@ -69,20 +69,6 @@ void ATestPlayerBase::TogglCardScreen(const FInputActionValue& Value)
         return;
     }
 
-    APlayerController* pc = GetWorld()->GetFirstPlayerController();
-
-    if (mIsMenuActive)
-    {
-        pc->SetInputMode(FInputModeGameOnly());
-        pc->bShowMouseCursor = false;
-    }
-    else
-    {
-        pc->SetInputMode(FInputModeGameAndUI());
-        pc->bShowMouseCursor = true;
-    }
-
     mIsMenuActive = !mIsMenuActive;
-    pc->bShowMouseCursor = mIsMenuActive;
 }
 

@@ -57,6 +57,16 @@ void UFilterGroupWidgetBase::AddFilter(UTexture2D* icon, const FText& lable)
     filterWidget->SetData(icon, lable);
 }
 
+UUserWidget* UFilterGroupWidgetBase::GetFirstSelectedFilter()
+{
+    if (mFilters.IsEmpty())
+    {
+        return nullptr;
+    }
+
+    return mFilters[0];
+}
+
 void UFilterGroupWidgetBase::ClearFilters()
 {
     if (!FiltersBox)

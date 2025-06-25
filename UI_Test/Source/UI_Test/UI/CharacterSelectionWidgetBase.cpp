@@ -231,13 +231,25 @@ bool UCharacterSelectionWidgetBase::EnableCardScreen(bool active)
         return false;
     }
 
+    // Always getting in case it changes mid session
+    APlayerController* pc = GetWorld()->GetFirstPlayerController();
     if (active)
     {
-        SetVisibility(ESlateVisibility::Visible);
         PlayAnimation(OpenMenu);
+        SetVisibility(ESlateVisibility::Visible);
+
+        // Set input mode to game and UI
+        pc->SetInputMode(FInputModeGameAndUI());
+        pc->bShowMouseCursor = true;
+
+        /* Coulnd't make the filter start focused by the controller
+           nor I managed to navigate through the scroll wheel */
     }
     else
     {
+        pc->SetInputMode(FInputModeGameOnly());
+        pc->bShowMouseCursor = false;
+
         PlayAnimation(CloseMenu);
     }
 
@@ -246,6 +258,5 @@ bool UCharacterSelectionWidgetBase::EnableCardScreen(bool active)
 
 void UCharacterSelectionWidgetBase::OnCloseScreenFinished()
 {
-    GEngine->AddOnScreenDebugMessage(0, 2, FColor::Green, TEXT("HIdden"));
     SetVisibility(ESlateVisibility::Hidden);
 }
