@@ -56,7 +56,7 @@ public:
 	void NativeConstruct() override;
 
     /* Opens or closes the Cards Settings' screen */
-    void EnableCardScreen(bool active = true);
+    bool EnableCardScreen(bool active = true);
 
 protected:
 #if WITH_EDITOR

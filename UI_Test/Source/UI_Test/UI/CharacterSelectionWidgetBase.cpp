@@ -14,6 +14,11 @@ void UCharacterSelectionWidgetBase::NativeConstruct()
 {
     Super::NativeConstruct();
 
+    FWidgetAnimationDynamicEvent widgetAnimEvent;
+    widgetAnimEvent.BindUFunction(this, "OnCloseScreenFinished");
+
+    BindToAnimationFinished(CloseMenu, widgetAnimEvent);
+
     SetFilters();
     CreateDeck();
 
@@ -219,8 +224,13 @@ void UCharacterSelectionWidgetBase::LockedCheckBoxChange(bool isChecked)
     CreateDeck();
 }
 
-void UCharacterSelectionWidgetBase::EnableCardScreen(bool active)
+bool UCharacterSelectionWidgetBase::EnableCardScreen(bool active)
 {
+    if (IsAnimationPlaying(CloseMenu) || IsAnimationPlaying(OpenMenu))
+    {
+        return false;
+    }
+
     if (active)
     {
         SetVisibility(ESlateVisibility::Visible);
@@ -228,15 +238,14 @@ void UCharacterSelectionWidgetBase::EnableCardScreen(bool active)
     }
     else
     {
-        FWidgetAnimationDynamicEvent widgetAnimEvent;
-        widgetAnimEvent.BindUFunction(this, "OnCloseScreenFinished");
-
-        BindToAnimationFinished(CloseMenu, widgetAnimEvent);
         PlayAnimation(CloseMenu);
     }
+
+    return true;
 }
 
 void UCharacterSelectionWidgetBase::OnCloseScreenFinished()
 {
+    GEngine->AddOnScreenDebugMessage(0, 2, FColor::Green, TEXT("HIdden"));
     SetVisibility(ESlateVisibility::Hidden);
 }
